@@ -4,6 +4,7 @@ import UnauthUserRoute from './routes/UnauthUserRoute';
 import AdminRoute from './routes/AdminRoute';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
+import Home from './pages/Home';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         {/* <Route element={<UnauthUserRoute />}> */}
           <Route path="/login" element={<Login />} exact />
           <Route path="/registration" element={<Registration />} exact />
+          <Route path="/" element={<Home />} exact />
         {/* </Route> */}
       </Routes>
     </div>

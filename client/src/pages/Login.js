@@ -1,23 +1,36 @@
-import { Button, Card, Form, Input } from 'antd';
+import React, {useState} from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Card, Form, Input, Row, Col } from 'antd';
+import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import DotLoader from "react-spinners/DotLoader";
-import { Link } from "react-router-dom";
-import { Row, Col } from 'antd';
-import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+import { login } from '../http/userAPI';
 
 export default function Login() {
-    const onFinish = (values) => {
-        console.log('Received values:', values);
+    let navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState(null);
+    
+    const loginHandler = async (values) => {
+        try {
+            await login(values.email, values.password);
+            setErrorMessage(null);
+            navigate("/");
+        } catch (e) {
+            setErrorMessage(e.response.data.message);
+        }
     };
 
     return (
         <div style={{ background: "grey"}}>
             <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
                 <Col span={6}>
-                    <Card title="Login" style={{ minWidth: 300 }}>
+                    <Card title={<h2 style={{ textAlign: 'center', fontSize: '1.5rem' }}>Login</h2>} style={{ minWidth: 300 }}>
                         <Form
                             name="login-form"
                             initialValues={{ remember: true }}
-                            onFinish={onFinish}>
+                            onFinish={loginHandler}>
+                                {errorMessage && (
+                                    <div style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</div>
+                                )}
                             <Form.Item
                                 name="email"
                                 rules={[

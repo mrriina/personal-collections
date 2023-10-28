@@ -38,36 +38,34 @@ class UserController {
         }
     }
 
-    // async login(req, res) {
-    //     try {
-    //         const {email, password} = req.body
-    //         const user = await User.findOne({where: {email}})
-    //         if(!user) {
-    //             return res.status(400).json({message: `User with email ${email} not found`})
-    //         }
-    //         let comparePassword = bcrypt.compareSync(password, user.password)
-    //         if(!comparePassword) {
-    //             return res.status(400).json({message: `Invalid password specified`})
-    //         }
+    async login(req, res) {
+        try {
+            const {email, password} = req.body
+            const user = await User.findOne({where: {email}})
+            if(!user) {
+                return res.status(400).json({message: `User with email ${email} not found`})
+            }
+            let comparePassword = bcrypt.compareSync(password, user.password)
+            if(!comparePassword) {
+                return res.status(400).json({message: `Invalid password specified`})
+            }
             
-    //         await User.update({signIn: Date.now()}, {where: {email}})
+            // await User.update({signIn: Date.now()}, {where: {email}})
     
-    //         const token = generateJwt(user.id, user.email)
-    //         return res.json({token,
-    //                         user: {
-    //                             id: user.id,
-    //                             email: user.email,
-    //                             name: user.name,
-    //                             signUp: user.signUp,
-    //                             signIn: user.signIn,
-    //                             status: user.status,
-    //                         }
-    //         })            
-    //     } catch (e) {
-    //         return res.status(500).json({message: 'Server error'})
+            const token = generateJwt(user.id, user.email)
+            return res.json({token,
+                            user: {
+                                id: user.id,
+                                email: user.email,
+                                name: user.name,
+                                role: user.role,
+                            }
+            })            
+        } catch (e) {
+            return res.status(500).json({message: 'Server error'})
             
-    //     }
-    // }
+        }
+    }
 
     // async check(req, res) {
     //     const {token} = req.body

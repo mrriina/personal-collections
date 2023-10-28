@@ -1,22 +1,36 @@
-import React from 'react';
-import { Form, Input, Button, Row, Col, Card } from 'antd';
+import React, {useState} from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { Form, Input, Button, Row, Col, Card, message } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
-import { Link } from "react-router-dom";
+import { registration } from '../http/userAPI';
 
 const Registration = () => {
-  const onFinish = (values) => {
-    console.log('Received values:', values);
+    let navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState(null);
+
+  const registrationHandler = async (values) => {
+    try {
+        await registration(values.name, values.email, values.password);
+        message.success("Successfully registered!")
+        setErrorMessage(null)
+        navigate("/");
+    } catch (e) {
+        setErrorMessage(e.response.data.message)
+    }
   };
 
   return (
     <div style={{ background: "grey"}}>
         <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
             <Col span={6}>
-                <Card title="Register" style={{ minWidth: 300 }}>
+                <Card title={<h2 style={{ textAlign: 'center', fontSize: '1.5rem' }}>Register</h2>} style={{ minWidth: 300 }}>
                     <Form
                         name="register-form"
-                        onFinish={onFinish}
+                        onFinish={registrationHandler}
                     >
+                        {errorMessage && (
+                            <div style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</div>
+                        )}
                         <Form.Item
                             name="name"
                             rules={[{ required: true, message: 'Please input your name!' }]}>
