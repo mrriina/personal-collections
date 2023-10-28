@@ -18,9 +18,9 @@ const Registration = () => {
                         onFinish={onFinish}
                     >
                         <Form.Item
-                            name="username"
-                            rules={[{ required: true, message: 'Please input your username!' }]}>
-                            <Input prefix={<UserOutlined />} placeholder="Username" />
+                            name="name"
+                            rules={[{ required: true, message: 'Please input your name!' }]}>
+                            <Input prefix={<UserOutlined />} placeholder="Name" />
                         </Form.Item>
                         <Form.Item
                             name="email"
