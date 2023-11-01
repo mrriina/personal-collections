@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Button, Modal, Form, Input, Select, Upload } from 'antd';
 import { useDropzone } from 'react-dropzone';
-import { uploadCollectionFile } from '../../http/collectionAPI';
+import { uploadCollectionFile, createCollection } from '../../http/collectionAPI';
 import { UploadOutlined } from '@ant-design/icons';
 import './Modal.css'
 
@@ -34,27 +34,30 @@ function ModalForm({ title, okText, onCloseModal }) {
                 data.append("file", imageFile);
                 data.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
                 data.append("cloud_name", CLOUDINARY_CLOUD_NAME);
-                setImageUrl(uploadCollectionFile(data, CLOUDINARY_CLOUD_NAME));
+
+                uploadCollectionFile(data, CLOUDINARY_CLOUD_NAME)
+                    .then((result) => {
+                        setImageUrl(result);
+                    })
+                    .catch((e) => {
+                        console.log('Error: ', e.message);
+                    })
             }
         },
     });
 
 
 
-    const handleCreate = () => {
+    const handleCreate =  () => {
         form.validateFields()
-          .then((values) => {
-            console.log('values.title=',values.title);
-            console.log('values.description=',values.description);
-            console.log('values.theme=',values.theme);
-            console.log('values.image=',values.image);
+          .then(async (values) => {
+            await createCollection(values.title, values.description, values.theme, imageUrl, sessionStorage.getItem('userId'))
 
-
-            const formData = new FormData();
-            formData.append('title', values.title);
-            formData.append('description', values.description);
-            formData.append('theme', values.theme);
-            formData.append('image', imageFile);
+            // const formData = new FormData();
+            // formData.append('title', values.title);
+            // formData.append('description', values.description);
+            // formData.append('theme', values.theme);
+            // formData.append('image', imageFile);
     
         })
           .catch((errorInfo) => {

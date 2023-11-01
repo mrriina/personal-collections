@@ -5,7 +5,7 @@ import ModalForm from './ModalForm';
 function Profile() {
 
   const [createCollectionModal, setCreateCollectionModal] = useState(false);
-  const modalTitle = 'Create collection'; // Задайте значение title
+  const modalTitle = 'Create collection';
   const modalOkText = 'Create';
 
   return (
