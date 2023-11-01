@@ -13,7 +13,7 @@ export default function Login() {
         try {
             await login(values.email, values.password);
             setErrorMessage(null);
-            navigate("/");
+            navigate("/profile");
         } catch (e) {
             setErrorMessage(e.response.data.message);
         }

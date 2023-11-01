@@ -5,6 +5,7 @@ import AdminRoute from './routes/AdminRoute';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import Home from './pages/Home';
+import Profile from './pages/ProfilePage/Profile'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login" element={<Login />} exact />
           <Route path="/registration" element={<Registration />} exact />
           <Route path="/" element={<Home />} exact />
+          <Route path="/profile" element={<Profile />} exact />
         {/* </Route> */}
       </Routes>
     </div>

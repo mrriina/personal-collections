@@ -13,7 +13,7 @@ const Registration = () => {
         await registration(values.name, values.email, values.password);
         message.success("Successfully registered!")
         setErrorMessage(null)
-        navigate("/");
+        navigate("/profile");
     } catch (e) {
         setErrorMessage(e.response.data.message)
     }
