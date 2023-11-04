@@ -92,7 +92,12 @@ function ModalForm({ title, okText, onCloseModal }) {
     const handleCreate =  () => {
         form.validateFields()
           .then(async (values) => {
-            await createCollection(values.title, values.description, values.theme, imageUrl, sessionStorage.getItem('userId'))
+            const customFieldsData = customFields.map(field => ({
+                name: field.name,
+                type: field.type
+            }));
+
+            await createCollection(values.title, values.description, values.theme, imageUrl, sessionStorage.getItem('userId'), customFieldsData)
         })
           .catch((errorInfo) => {
             console.log('Validation error:', errorInfo);

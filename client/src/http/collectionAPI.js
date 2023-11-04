@@ -12,13 +12,11 @@ export const uploadCollectionFile = async (data, cloudName) => {
 }
 
 
-export const createCollection = async (title, description, theme, image_url, owner) => {
+export const createCollection = async (title, description, theme, image_url, owner, customFields) => {
     try {
-        console.log('client title=',title);
-        console.log('client description=',description);
-        console.log('client theme=',theme);
-        console.log('client image_url=',image_url);
-        const {data} = await $host.post('api/collection/create', {title, description, theme, image_url, owner})
+        console.log('client owner ==', owner);
+        const {data} = await $host.post('api/collection/create', {title, description, theme, image_url, owner, customFields})
+        return data
     } catch (e) {
         console.log(`Server error: ${e.message}`);
     }
