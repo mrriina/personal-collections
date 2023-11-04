@@ -1,7 +1,7 @@
 const sequelize = require('../db')
 const {DataTypes} = require('sequelize')
 
-const User = sequelize.define('user', {
+const Profile = sequelize.define('profile', {
     id: {type: DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     name: {type: DataTypes.STRING, require:true},
     email: {type: DataTypes.STRING, require:true, unique:true},
@@ -28,15 +28,15 @@ const CollectionField = sequelize.define('collection_field', {
 });
 
 
-User.hasMany(Collection);
-Collection.belongsTo(User);
+Profile.hasMany(Collection);
+Collection.belongsTo(Profile);
 
 Collection.hasMany(CollectionField);
 CollectionField.belongsTo(Collection);
 
 
 module.exports = {
-    User,
+    Profile,
     Collection,
     CollectionField
 }

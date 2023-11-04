@@ -5,7 +5,7 @@ import AdminRoute from './routes/AdminRoute';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import Home from './pages/Home';
-import Profile from './pages/ProfilePage/Profile'
+import Profile from './pages/Profile'
 
 function App() {
   return (

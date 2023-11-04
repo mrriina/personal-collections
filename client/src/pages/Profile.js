@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from 'antd';
-import ModalForm from './ModalForm';
+import ModalForm from '../components/ModalForm';
 
 function Profile() {
 

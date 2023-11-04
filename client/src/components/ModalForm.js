@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 
 import { Button, Modal, Form, Input, Select, Upload } from 'antd';
 import { useDropzone } from 'react-dropzone';
-import { uploadCollectionFile, createCollection } from '../../http/collectionAPI';
+import { uploadCollectionFile, createCollection } from '../http/collectionAPI';
 import { UploadOutlined } from '@ant-design/icons';
+import CollectionCustomFields from './CollectionCustomFields';
 import './Modal.css'
 
 
@@ -15,10 +16,50 @@ function ModalForm({ title, okText, onCloseModal }) {
     const [imageFile, setImageFile] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
 
+    const [customFields, setCustomFields] = useState([]);
+
     // const CLOUDINARY_UPLOAD_PRESET = process.env.CLOUDINARY_UPLOAD_PRESET;
 	// const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
+    // console.log('process.env.CLOUDINARY_UPLOAD_PRESET==', CLOUDINARY_UPLOAD_PRESET);
     const CLOUDINARY_UPLOAD_PRESET = 'ml_default';
 	const CLOUDINARY_CLOUD_NAME = 'dllivv10p';
+
+
+
+    const fieldsOptions = [
+        { value: 'integer', label: 'Numbers' },
+        { value: 'string', label: 'String' },
+        { value: 'text', label: 'Text' },
+        { value: 'checkbox', label: 'Checkbox' },
+        { value: 'date', label: 'Date' },
+    ];
+
+
+    const addCustomField = () => {
+        setCustomFields([...customFields, { name: '', type: 'string' }]);
+    };
+
+
+    const handleCustomFieldNameChange = (index, newName) => {
+        const updatedCustomFields = [...customFields];
+        updatedCustomFields[index].name = newName;
+        setCustomFields(updatedCustomFields);
+    };
+      
+      const handleCustomFieldTypeChange = (index, newType) => {
+        const updatedCustomFields = [...customFields];
+        updatedCustomFields[index].type = newType;
+        setCustomFields(updatedCustomFields);
+    };
+
+    const handleDeleteCustomField = (index) => {
+        const updatedCustomFields = [...customFields];
+        updatedCustomFields.splice(index, 1);
+        setCustomFields(updatedCustomFields);
+      };
+
+
+
     
     const handleCancel = () => {
         setIsModalVisible(false);
@@ -27,7 +68,7 @@ function ModalForm({ title, okText, onCloseModal }) {
 
     const { getRootProps, getInputProps } = useDropzone({
         accept: 'image/*',
-        onDrop: (acceptedFiles) => {
+        onDrop: async (acceptedFiles) => {
             if (acceptedFiles && acceptedFiles.length > 0) {
                 setImageFile(acceptedFiles[0]);
                 const data = new FormData();
@@ -35,7 +76,7 @@ function ModalForm({ title, okText, onCloseModal }) {
                 data.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
                 data.append("cloud_name", CLOUDINARY_CLOUD_NAME);
 
-                uploadCollectionFile(data, CLOUDINARY_CLOUD_NAME)
+                await uploadCollectionFile(data, CLOUDINARY_CLOUD_NAME)
                     .then((result) => {
                         setImageUrl(result);
                     })
@@ -52,13 +93,6 @@ function ModalForm({ title, okText, onCloseModal }) {
         form.validateFields()
           .then(async (values) => {
             await createCollection(values.title, values.description, values.theme, imageUrl, sessionStorage.getItem('userId'))
-
-            // const formData = new FormData();
-            // formData.append('title', values.title);
-            // formData.append('description', values.description);
-            // formData.append('theme', values.theme);
-            // formData.append('image', imageFile);
-    
         })
           .catch((errorInfo) => {
             console.log('Validation error:', errorInfo);
@@ -99,6 +133,21 @@ function ModalForm({ title, okText, onCloseModal }) {
                         <p>Drag the image here or click to select a file</p>
                     )}
                 </div>
+
+
+
+                <CollectionCustomFields
+                    customFields={customFields}
+                    handleCustomFieldNameChange={handleCustomFieldNameChange}
+                    handleCustomFieldTypeChange={handleCustomFieldTypeChange}
+                    handleDeleteCustomField={handleDeleteCustomField}
+                    fieldsOptions={fieldsOptions}
+                />
+                <Button onClick={addCustomField}>Add Field</Button>
+
+
+
+
             </Form>
         </Modal>
     );
