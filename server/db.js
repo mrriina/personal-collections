@@ -2,17 +2,17 @@ const {Sequelize} = require('sequelize')
 import * as pg from 'pg';
 
 module.exports = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
+    process.env.POSTGRES_DATABASE,
+    process.env.POSTGRES_USER,
+    process.env.POSTGRES_PASSWORD,
     {
          dialect: 'postgres',
-         host: process.env.DB_HOST,
-         port: process.env.DB_PORT,
-        //  dialectOptions: {
-        //     ssl: {
-        //         require: true,
-        //     },
-        // },
+         host: process.env.POSTGRES_HOST,
+         port: process.env.POSTGRES_PORT,
+         dialectOptions: {
+            ssl: {
+                require: true,
+            },
+        },
     }
 )
