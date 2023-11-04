@@ -18,11 +18,11 @@ function ModalForm({ title, okText, onCloseModal }) {
 
     const [customFields, setCustomFields] = useState([]);
 
-    const CLOUDINARY_UPLOAD_PRESET = process.env.CLOUDINARY_UPLOAD_PRESET;
-	const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
-    console.log('process.env.CLOUDINARY_UPLOAD_PRESET==', CLOUDINARY_UPLOAD_PRESET);
-    // const CLOUDINARY_UPLOAD_PRESET = 'ml_default';
-	// const CLOUDINARY_CLOUD_NAME = 'dllivv10p';
+    // const CLOUDINARY_UPLOAD_PRESET = process.env.CLOUDINARY_UPLOAD_PRESET;
+	// const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
+    // console.log('process.env.CLOUDINARY_UPLOAD_PRESET==', CLOUDINARY_UPLOAD_PRESET);
+    const CLOUDINARY_UPLOAD_PRESET = 'ml_default';
+	const CLOUDINARY_CLOUD_NAME = 'dllivv10p';
 
 
 
