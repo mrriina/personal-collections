@@ -3,7 +3,8 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {Profile} = require('../models/models')
 
-const SECRET_KEY=process.env.SECRET_KEY
+const SECRET_KEY='secret_key123'
+// const SECRET_KEY=process.env.SECRET_KEY
 
 const generateJwt = (id, email) => {
     return jwt.sign({id, email},
