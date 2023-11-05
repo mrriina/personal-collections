@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Button, Modal, Form, Input, Select, Upload, Spin } from 'antd';
+import { Button, Modal, Form, Input, Select, Upload, Spin, Row } from 'antd';
 import { useDropzone } from 'react-dropzone';
 import { uploadCollectionFile, createCollection } from '../http/collectionAPI';
 import { UploadOutlined } from '@ant-design/icons';
@@ -16,6 +16,7 @@ function ModalForm({ title, okText, onCloseModal }) {
     const [imageFile, setImageFile] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [isCreating, setIsCreating] = useState(false);
 
     const [customFields, setCustomFields] = useState([]);
 
@@ -57,7 +58,7 @@ function ModalForm({ title, okText, onCloseModal }) {
         const updatedCustomFields = [...customFields];
         updatedCustomFields.splice(index, 1);
         setCustomFields(updatedCustomFields);
-      };
+    };
 
 
 
@@ -95,14 +96,14 @@ function ModalForm({ title, okText, onCloseModal }) {
     const handleCreate =  () => {
         form.validateFields()
           .then(async (values) => {
-            setIsLoading(true);
+            setIsCreating(true);
             const customFieldsData = customFields.map(field => ({
                 name: field.name,
                 type: field.type
             }));
 
             await createCollection(values.title, values.description, values.theme, imageUrl, sessionStorage.getItem('userId'), customFieldsData)
-            setIsLoading(false);
+            setIsCreating(false);
             closeModal();
         })
           .catch((errorInfo) => {
@@ -118,49 +119,51 @@ function ModalForm({ title, okText, onCloseModal }) {
             cancelText="Cancel"
             onCancel={closeModal}
             onOk={handleCreate}
-            >
-                <Spin spinning={isLoading} />
-            <Form form={form} layout="vertical">
-                <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Введите Title' }]}>
-                    <Input />
-                </Form.Item>
-                <Form.Item name="description" label="Description" rules={[{ required: true, message: 'Введите Description' }]}>
-                    <Input.TextArea />
-                </Form.Item>
-                <Form.Item name="theme" label="Theme" rules={[{ required: true, message: 'Выберите Theme' }]}>
-                    <Select>
-                        <Option value="Books">Books</Option>
-                        <Option value="Signs">Signs</Option>
-                        <Option value="Silverware">Silverware</Option>
-                        <Option value="Cars">Cars</Option>
-                    </Select>
-                </Form.Item>
-                <div {...getRootProps()} 
-                    className="dropzone"
-                >
-                    <input {...getInputProps()} />
-                    {imageFile ? (
-                        <p>Image selected: {imageFile.name}</p>
-                    ) : (
-                        <p>Drag the image here or click to select a file</p>
-                    )}
-                </div>
+        >
+            <Spin spinning={isCreating}>
+                <Form form={form} layout="vertical">
+                    <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Введите Title' }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="description" label="Description" rules={[{ required: true, message: 'Введите Description' }]}>
+                        <Input.TextArea />
+                    </Form.Item>
+                    <Form.Item name="theme" label="Theme" rules={[{ required: true, message: 'Выберите Theme' }]}>
+                        <Select>
+                            <Option value="Books">Books</Option>
+                            <Option value="Signs">Signs</Option>
+                            <Option value="Silverware">Silverware</Option>
+                            <Option value="Cars">Cars</Option>
+                        </Select>
+                    </Form.Item>
+                    {isLoading ? <Row justify="center" align="middle"><Spin spinning={isLoading} /></Row> :
+                    <div {...getRootProps()} 
+                        className="dropzone"
+                    >
+                        <input {...getInputProps()} />
+                        {imageFile ? (
+                            <p>Image selected: {imageFile.name}</p>
+                        ) : (
+                            <p>Drag the image here or click to select a file</p>
+                        )}
+                    </div>
+                    }
+
+
+                    <CollectionCustomFields
+                        customFields={customFields}
+                        handleCustomFieldNameChange={handleCustomFieldNameChange}
+                        handleCustomFieldTypeChange={handleCustomFieldTypeChange}
+                        handleDeleteCustomField={handleDeleteCustomField}
+                        fieldsOptions={fieldsOptions}
+                    />
+                    <Button onClick={addCustomField}>Add Field</Button>
 
 
 
-                <CollectionCustomFields
-                    customFields={customFields}
-                    handleCustomFieldNameChange={handleCustomFieldNameChange}
-                    handleCustomFieldTypeChange={handleCustomFieldTypeChange}
-                    handleDeleteCustomField={handleDeleteCustomField}
-                    fieldsOptions={fieldsOptions}
-                />
-                <Button onClick={addCustomField}>Add Field</Button>
 
-
-
-
-            </Form>
+                </Form>
+            </Spin>
         </Modal>
     );
 }

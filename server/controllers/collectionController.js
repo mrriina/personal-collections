@@ -48,6 +48,25 @@ class CollectionController {
         }
     }
 
+    
+    async getCollectionById(req, res) {
+        try {
+            const _id = req.params.id
+
+            const collection = await Collection.findOne({
+                where: { id: _id },
+                include: CollectionField,
+            })
+            
+            if(!collection) {
+                return res.status(500).json({message: 'Collection not found'})
+            }
+            return res.json({collection})
+        } catch (e) {
+            return res.status(500).json({message: 'Server error'})
+        }
+    }
+
 
     async getCollectionsByProfileId(req, res) {
         try {
@@ -62,6 +81,22 @@ class CollectionController {
                 return res.status(500).json({message: 'Collections not found'})
             }
             return res.json({collections})
+        } catch (e) {
+            return res.status(500).json({message: 'Server error'})
+        }
+    }
+
+
+
+    async deleteCollection(req, res) {
+        try {
+            const _id = req.params.id
+            const collection = await Collection.findOne({where: {id: _id}})
+            if(!collection) {
+                return res.status(500).json({message: 'Collection with this id not found'})
+            }
+            await Collection.destroy({where: {id: _id}})
+            return res.json({message: 'The collection has been successfully deleted'})
         } catch (e) {
             return res.status(500).json({message: 'Server error'})
         }

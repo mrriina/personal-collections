@@ -3,6 +3,8 @@ const router = new Router()
 const collectionController = require('../controllers/collectionController')
 
 router.post('/create', collectionController.createCollection)
-router.post('/getByProfileId', collectionController.getCollectionsByProfileId)
+router.post('/getCollectionsByProfileId', collectionController.getCollectionsByProfileId)
+router.get('/getCollectionById/:id', collectionController.getCollectionById)
+router.delete('/deleteCollection/:id', collectionController.deleteCollection)
 
 module.exports = router

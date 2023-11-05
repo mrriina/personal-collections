@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Spin, Row, Col } from 'antd';
 import ModalForm from '../components/ModalForm';
-import { getCollectionsByProfileId } from '../http/collectionAPI'
+import { getCollectionsByProfileId, deleteCollection } from '../http/collectionAPI'
 import CollectionCard from '../components/CollectionCard';
 
 function Profile() {
-  const [collections, setCollections] = useState();
+  const [collections, setCollections] = useState([]);
   const [createCollectionModal, setCreateCollectionModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const modalTitle = 'Create collection';
@@ -23,6 +23,12 @@ function Profile() {
   }
 
 
+  const handleDeleteCollection = async (id) => {
+    await deleteCollection(id);
+    getCollections();
+};
+
+
   return (
     <div style={{background: '#e3e1e5'}}>
         <Button type="primary" onClick={() => setCreateCollectionModal(true)}>
@@ -30,16 +36,20 @@ function Profile() {
         </Button>
 
         <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
-          {isLoading ? <Spin /> :
-            collections.map((collection) => (
+          {/* {isLoading ?  */}
+          <Spin spinning={isLoading} > 
+            {collections.map((collection) => (
               <CollectionCard
                 key={collection.id}
+                id={collection.id}
                 title={collection.title}
                 theme={collection.theme}
                 image={collection.image_url}
+                handleDeleteCollection={handleDeleteCollection}
               />
-            ))
-          }
+            ))}
+          </Spin>
+          {/* } */}
         </Row>
         
         {createCollectionModal && (

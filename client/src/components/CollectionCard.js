@@ -1,8 +1,9 @@
 import React from 'react';
 import { Card, Button, Divider } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
-const CollectionCard = ({ title, theme, image }) => {
+const CollectionCard = ({ id, title, theme, image, handleDeleteCollection }) => {
 
     const defaultImageUrl = 'https://res.cloudinary.com/dllivv10p/image/upload/v1699177267/yzrkgw8kkl5tttonnun3.jpg';
 
@@ -14,12 +15,14 @@ const CollectionCard = ({ title, theme, image }) => {
                 <Button icon={<EditOutlined />} type="primary">
                     Edit
                 </Button>,
-                <Button icon={<DeleteOutlined />} danger>
+                <Button onClick={() => handleDeleteCollection(id)} icon={<DeleteOutlined />} danger>
                     Delete
                 </Button>,
             ]}
         >
-        <Card.Meta title={title} description={theme} />
+        <Link to={`/collection/${id}`}>
+            <Card.Meta title={title} description={theme} />
+        </Link>
         </Card>
     );
 };

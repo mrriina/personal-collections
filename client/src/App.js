@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Registration from './pages/Registration';
 import Home from './pages/Home';
 import Profile from './pages/Profile'
+import Collection from './pages/Collection';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/registration" element={<Registration />} exact />
           <Route path="/" element={<Home />} exact />
           <Route path="/profile" element={<Profile />} exact />
+          <Route path="/collection/:id" element={<Collection />} exact />
         {/* </Route> */}
       </Routes>
     </div>
