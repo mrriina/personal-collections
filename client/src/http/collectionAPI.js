@@ -14,8 +14,17 @@ export const uploadCollectionFile = async (data, cloudName) => {
 
 export const createCollection = async (title, description, theme, image_url, owner, customFields) => {
     try {
-        console.log('client owner ==', owner);
         const {data} = await $host.post('api/collection/create', {title, description, theme, image_url, owner, customFields})
+        return data
+    } catch (e) {
+        console.log(`Server error: ${e.message}`);
+    }
+}
+
+
+export const getCollectionsByProfileId = async (profileId) => {
+    try {
+        const {data} = await $host.post('api/collection/getByProfileId', {profileId: profileId})
         return data
     } catch (e) {
         console.log(`Server error: ${e.message}`);

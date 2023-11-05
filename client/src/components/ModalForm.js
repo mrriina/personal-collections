@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Button, Modal, Form, Input, Select, Upload } from 'antd';
+import { Button, Modal, Form, Input, Select, Upload, Spin } from 'antd';
 import { useDropzone } from 'react-dropzone';
 import { uploadCollectionFile, createCollection } from '../http/collectionAPI';
 import { UploadOutlined } from '@ant-design/icons';
@@ -15,6 +15,7 @@ function ModalForm({ title, okText, onCloseModal }) {
     const [form] = Form.useForm();
     const [imageFile, setImageFile] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [customFields, setCustomFields] = useState([]);
 
@@ -61,7 +62,7 @@ function ModalForm({ title, okText, onCloseModal }) {
 
 
     
-    const handleCancel = () => {
+    const closeModal = () => {
         setIsModalVisible(false);
         onCloseModal();
     };
@@ -69,6 +70,7 @@ function ModalForm({ title, okText, onCloseModal }) {
     const { getRootProps, getInputProps } = useDropzone({
         accept: 'image/*',
         onDrop: async (acceptedFiles) => {
+            setIsLoading(true);
             if (acceptedFiles && acceptedFiles.length > 0) {
                 setImageFile(acceptedFiles[0]);
                 const data = new FormData();
@@ -84,6 +86,7 @@ function ModalForm({ title, okText, onCloseModal }) {
                         console.log('Error: ', e.message);
                     })
             }
+            setIsLoading(false);
         },
     });
 
@@ -92,12 +95,15 @@ function ModalForm({ title, okText, onCloseModal }) {
     const handleCreate =  () => {
         form.validateFields()
           .then(async (values) => {
+            setIsLoading(true);
             const customFieldsData = customFields.map(field => ({
                 name: field.name,
                 type: field.type
             }));
 
             await createCollection(values.title, values.description, values.theme, imageUrl, sessionStorage.getItem('userId'), customFieldsData)
+            setIsLoading(false);
+            closeModal();
         })
           .catch((errorInfo) => {
             console.log('Validation error:', errorInfo);
@@ -110,9 +116,10 @@ function ModalForm({ title, okText, onCloseModal }) {
             title={title}
             okText={okText}
             cancelText="Cancel"
-            onCancel={handleCancel}
+            onCancel={closeModal}
             onOk={handleCreate}
             >
+                <Spin spinning={isLoading} />
             <Form form={form} layout="vertical">
                 <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Введите Title' }]}>
                     <Input />
