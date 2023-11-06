@@ -7,10 +7,12 @@ import Registration from './pages/Registration';
 import Home from './pages/Home';
 import Profile from './pages/Profile'
 import Collection from './pages/Collection';
+import Navbar from './components/NavBar';
 
 function App() {
   return (
-    <div>
+    <div className="h-screen bg-gray-100 dark:bg-gray-900 overflow-y-auto scrollHide">
+      <Navbar />
       <Routes>
         {/* <Route element={<AuthUserRoute />} >
           <Route element={<AdminRoute />} ></Route>
@@ -21,7 +23,7 @@ function App() {
           <Route path="/registration" element={<Registration />} exact />
           <Route path="/" element={<Home />} exact />
           <Route path="/profile" element={<Profile />} exact />
-          <Route path="/collection/:id" element={<Collection />} exact />
+          <Route path="/collection/:id" element={<Collection />} exact /> 
         {/* </Route> */}
       </Routes>
     </div>

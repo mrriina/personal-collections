@@ -12,7 +12,7 @@ const CollectionCard = ({ id, title, theme, image, handleDeleteCollection }) => 
             style={{width: '250px', margin: '10px', display: 'inline-block'}}
             cover={<img alt={title} src={image || defaultImageUrl} style={{width: '100%', height: '150px', objectFit: 'cover'}} />}
             actions={[
-                <Button icon={<EditOutlined />} type="primary">
+                <Button icon={<EditOutlined />} type="primary" ghost>
                     Edit
                 </Button>,
                 <Button onClick={() => handleDeleteCollection(id)} icon={<DeleteOutlined />} danger>

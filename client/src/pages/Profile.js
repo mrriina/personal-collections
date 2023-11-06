@@ -3,6 +3,7 @@ import { Button, Spin, Row, Col } from 'antd';
 import ModalForm from '../components/ModalForm';
 import { getCollectionsByProfileId, deleteCollection } from '../http/collectionAPI'
 import CollectionCard from '../components/CollectionCard';
+import { PlusOutlined } from '@ant-design/icons';
 
 function Profile() {
   const [collections, setCollections] = useState([]);
@@ -30,13 +31,16 @@ function Profile() {
 
 
   return (
-    <div style={{background: '#e3e1e5'}}>
-        <Button type="primary" onClick={() => setCreateCollectionModal(true)}>
-            Create
-        </Button>
+    <div style={{padding: '3% 5%', background: '#f5f5f5'}}>
+      <Button
+        onClick={() => setCreateCollectionModal(true)}
+        icon={<PlusOutlined />}
+        style={{float: 'right', marginRight: '1%'}}
+      >
+        Create
+      </Button>
 
-        <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
-          {/* {isLoading ?  */}
+        <div display='flex' align='center' style={{ minHeight: '100vh', marginTop: '5%' }}>
           <Spin spinning={isLoading} > 
             {collections.map((collection) => (
               <CollectionCard
@@ -49,8 +53,7 @@ function Profile() {
               />
             ))}
           </Spin>
-          {/* } */}
-        </Row>
+        </div>
         
         {createCollectionModal && (
         <ModalForm title={modalTitle} okText={modalOkText} onCloseModal={() => {setCreateCollectionModal(false); getCollections()}} />
