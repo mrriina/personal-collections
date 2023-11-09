@@ -16,15 +16,21 @@ const Collection = sequelize.define('collection', {
     description: {type: DataTypes.TEXT, require:true},
     theme: {type: DataTypes.STRING, require:true},
     image_url: {type: DataTypes.STRING},
-    // owner: { type: DataTypes.INTEGER, require:true, allowNull: false}, // Внешний ключ, связанный с таблицей User
 });
 
 
 const CollectionField = sequelize.define('collection_field', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    // collection_id: { type: DataTypes.INTEGER, require:true, allowNull: false}, // Внешний ключ, связанный с таблицей Collection
     field_name: { type: DataTypes.STRING, require:true, allowNull: false},
     field_type: { type: DataTypes.STRING, require:true, allowNull: false},
+});
+
+
+const CollectionItem = sequelize.define('collection_item', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    title: { type: DataTypes.STRING, require: true },
+    tags: { type: DataTypes.STRING, require: true },
+    customFields: { type: DataTypes.JSONB },
 });
 
 
@@ -34,9 +40,12 @@ Collection.belongsTo(Profile);
 Collection.hasMany(CollectionField);
 CollectionField.belongsTo(Collection);
 
+CollectionItem.belongsTo(Collection);
+
 
 module.exports = {
     Profile,
     Collection,
-    CollectionField
+    CollectionField,
+    CollectionItem
 }

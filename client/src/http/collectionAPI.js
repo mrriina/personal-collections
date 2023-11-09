@@ -31,6 +31,15 @@ export async function getCollectionById(id) {
     }
 }
 
+export async function getCollections() {
+    try {
+        const {data} = await $host.get('api/collection/getCollections')
+        return data
+    } catch (e) {
+        console.log(`Server error: ${e.message}`);
+    }
+}
+
 
 export async function getCollectionsByProfileId(profileId) {
     try {
