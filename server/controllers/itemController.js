@@ -30,6 +30,19 @@ class ItemController {
             return res.status(400).json({message: `Server error: ${e.message}`})
         }
     }
+
+
+    async getItems(req, res) {
+        try {
+            const items = await CollectionItem.findAll()
+            if(!items) {
+                return res.status(500).json({message: 'Items not found'})
+            }
+            return res.json({items})
+        } catch (e) {
+            return res.status(500).json({message: 'Server error'})
+        }
+    }
     
 }
 
