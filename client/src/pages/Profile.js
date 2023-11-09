@@ -56,8 +56,8 @@ function Profile() {
         </div>
         
         {createCollectionModal && (
-        <ModalForm title={modalTitle} okText={modalOkText} onCloseModal={() => {setCreateCollectionModal(false); getCollections()}} />
-      )}
+          <ModalForm title={modalTitle} okText={modalOkText} onCloseModal={() => {setCreateCollectionModal(false); getCollections()}} />
+        )}
     </div>
   );
 }
