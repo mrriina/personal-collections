@@ -35,12 +35,27 @@ const CollectionItem = sequelize.define('collection_item', {
 
 
 Profile.hasMany(Collection);
-Collection.belongsTo(Profile);
+Collection.belongsTo(Profile, {
+    foreignKey: {
+        allowNull: false,
+    },
+    onDelete: 'CASCADE',
+});
 
 Collection.hasMany(CollectionField);
-CollectionField.belongsTo(Collection);
+CollectionField.belongsTo(Collection, {
+    foreignKey: {
+        allowNull: false,
+    },
+    onDelete: 'CASCADE',
+});
 
-CollectionItem.belongsTo(Collection);
+CollectionItem.belongsTo(Collection, {
+    foreignKey: {
+        allowNull: false,
+    },
+    onDelete: 'CASCADE',
+});
 
 
 module.exports = {
