@@ -12,11 +12,11 @@ import {$host} from './index';
 // }
 
 
-// export async function getItems() {
-//     try {
-//         const {data} = await $host.get('api/collection/getCollections')
-//         return data
-//     } catch (e) {
-//         console.log(`Server error: ${e.message}`);
-//     }
-// }
+export async function getItems(collectionId) {
+    try {
+        const {data} = await $host.post('api/item/getItems', {collectionId})
+        return data
+    } catch (e) {
+        console.log(`Server error: ${e.message}`);
+    }
+}

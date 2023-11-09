@@ -32,9 +32,13 @@ class ItemController {
     }
 
 
-    async getItems(req, res) {
+    async getItemsById(req, res) {
         try {
-            const items = await CollectionItem.findAll()
+            const {collectionId} = req.body
+
+            const items = await CollectionItem.findAll({
+                where: { collectionId },
+            })
             if(!items) {
                 return res.status(500).json({message: 'Items not found'})
             }
