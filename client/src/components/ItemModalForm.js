@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Modal, Form, Input, Select, Upload, Spin, Row, InputNumber  } from 'antd';
 import { useDropzone } from 'react-dropzone';
@@ -10,11 +10,21 @@ import './Modal.css'
 
 const { Option } = Select;
 
-function ItemModalForm({ title, okText, customFields, onCloseModal }) {
+function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
     const [isModalVisible, setIsModalVisible] = useState(true);
     const [form] = Form.useForm();
-    const [isCreating, setIsCreating] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const { id } = useParams();
+
+    useEffect(() => {
+        if(item) {
+            const fieldValues = { title: item.title, tags: item.tags };
+            customFields.map((field) => {
+                fieldValues[field.field_name] = item.customFields[field.field_name];
+            })
+            form.setFieldsValue(fieldValues);
+        }
+    }, [])
 
     
     const closeModal = () => {
@@ -23,10 +33,32 @@ function ItemModalForm({ title, okText, customFields, onCloseModal }) {
     };
 
 
+    const handleEdit =  () => {
+        form.validateFields()
+          .then(async (values) => {
+            setIsLoading(true);
+            
+            const customFieldsValues = {};
+            Object.keys(values).forEach((key) => {
+                if (key !== 'title' && key !== 'tags') {
+                    customFieldsValues[key] = values[key];
+                }
+            });
+
+            // await createItem(values.title, values.tags, customFieldsValues, id)
+            setIsLoading(false);
+            closeModal();
+        })
+          .catch((errorInfo) => {
+            console.log('Validation error:', errorInfo);
+        });
+    };
+
+
     const handleCreate =  () => {
         form.validateFields()
           .then(async (values) => {
-            setIsCreating(true);
+            setIsLoading(true);
             
             const customFieldsValues = {};
             Object.keys(values).forEach((key) => {
@@ -36,7 +68,7 @@ function ItemModalForm({ title, okText, customFields, onCloseModal }) {
             });
 
             await createItem(values.title, values.tags, customFieldsValues, id)
-            setIsCreating(false);
+            setIsLoading(false);
             closeModal();
         })
           .catch((errorInfo) => {
@@ -51,9 +83,9 @@ function ItemModalForm({ title, okText, customFields, onCloseModal }) {
             okText={okText}
             cancelText="Cancel"
             onCancel={closeModal}
-            onOk={handleCreate}
+            onOk={handleEdit}
         >
-            <Spin spinning={isCreating}>
+            <Spin spinning={isLoading}>
                 <Form form={form} layout="vertical">
                     <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Введите Title' }]}>
                         <Input />

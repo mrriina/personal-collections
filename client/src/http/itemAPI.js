@@ -20,3 +20,23 @@ export async function getItems(collectionId) {
         console.log(`Server error: ${e.message}`);
     }
 }
+
+
+export async function deleteItem(id) {
+    try {
+        const response = await $host.delete(`api/item/deleteItem/${id}`)
+        return response
+    } catch (e) {
+        console.log(`Server error: ${e.message}`);
+    }
+}
+
+
+export async function updateItemById(id, title, tags, customFieldsValues, collectionId){
+    try {
+        // const response = await $host.put(`api/item/users/${id}`, {status})
+        // return response.message
+    } catch (e) {
+        console.log('Error: ', e);
+    }
+}

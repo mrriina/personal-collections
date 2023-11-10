@@ -47,6 +47,42 @@ class ItemController {
             return res.status(500).json({message: 'Server error'})
         }
     }
+
+
+
+    async deleteItem(req, res) {
+        try {
+            const _id = req.params.id
+            const item = await CollectionItem.findOne({where: {id: _id}})
+            if(!item) {
+                return res.status(500).json({message: 'Item with this id not found'})
+            }
+            await CollectionItem.destroy({where: {id: _id}})
+            return res.status(200).json({message: 'The item has been successfully deleted'})
+        } catch (e) {
+            return res.status(500).json({message: 'Server error'})
+        }
+    }
+
+
+    async updateItemById(req, res) {
+        try {
+
+            const {title, tags, customFields} = req.body
+            const _id = req.params.id
+
+            const item = CollectionItem.findOne({where: {id: _id}})
+
+            if(!item) {
+                return res.status(500).json({message: 'Item with this id not found'})
+            }
+            await CollectionItem.update({title, tags, customFields, collectionId}, {where: {id: _id}})
+            
+            return res.json({message: 'Item has been successfully updated'})
+        } catch (e) {
+            return res.status(500).json({message: 'Server error'})
+        }
+    }
     
 }
 
