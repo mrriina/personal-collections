@@ -76,7 +76,7 @@ class ItemController {
             if(!item) {
                 return res.status(500).json({message: 'Item with this id not found'})
             }
-            await CollectionItem.update({title, tags, customFields, collectionId}, {where: {id: _id}})
+            await CollectionItem.update({title, tags, customFields}, {where: {id: _id}})
             
             return res.json({message: 'Item has been successfully updated'})
         } catch (e) {

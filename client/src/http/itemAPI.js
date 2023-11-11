@@ -32,10 +32,10 @@ export async function deleteItem(id) {
 }
 
 
-export async function updateItemById(id, title, tags, customFieldsValues, collectionId){
+export async function updateItemById(id, title, tags, customFieldsValues){
     try {
-        // const response = await $host.put(`api/item/users/${id}`, {status})
-        // return response.message
+        const response = await $host.put(`api/item/updateItem/${id}`, {title, tags, customFields: customFieldsValues})
+        return response
     } catch (e) {
         console.log('Error: ', e);
     }

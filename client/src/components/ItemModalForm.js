@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Modal, Form, Input, Select, Upload, Spin, Row, InputNumber  } from 'antd';
 import { useDropzone } from 'react-dropzone';
-import { createItem } from '../http/itemAPI';
+import { createItem, updateItemById } from '../http/itemAPI';
 import { UploadOutlined } from '@ant-design/icons';
 import CollectionCustomFields from './CollectionCustomFields';
 import './Modal.css'
@@ -44,8 +44,8 @@ function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
                     customFieldsValues[key] = values[key];
                 }
             });
-
-            // await createItem(values.title, values.tags, customFieldsValues, id)
+            
+            const resp = await updateItemById(item.id, values.title, values.tags, customFieldsValues)
             setIsLoading(false);
             closeModal();
         })
@@ -83,7 +83,7 @@ function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
             okText={okText}
             cancelText="Cancel"
             onCancel={closeModal}
-            onOk={handleEdit}
+            onOk={item ? handleEdit : handleCreate}
         >
             <Spin spinning={isLoading}>
                 <Form form={form} layout="vertical">
