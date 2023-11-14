@@ -11,11 +11,12 @@ class CollectionController {
             const collection = await Collection.create({title, description, theme, image_url, profileId: owner})
 
             customFields.forEach(async field => {
-                const { name, type } = field;
+                const { name, type, isRequired } = field;
                 await CollectionField.create({
                     collectionId: collection.id,
                     field_name: name,
                     field_type: type,
+                    isRequired: isRequired,
                 });
             });
             
@@ -97,6 +98,42 @@ class CollectionController {
             }
             await Collection.destroy({where: {id: _id}})
             return res.json({message: 'The collection has been successfully deleted'})
+        } catch (e) {
+            return res.status(500).json({message: 'Server error'})
+        }
+    }
+
+
+    async updateCollectionById(req, res) {
+        try {
+
+            const {title, description, theme, image_url, customFields} = req.body
+            const _id = req.params.id
+
+            const collection = Collection.findOne({where: {id: _id}})
+
+            if(!collection) {
+                return res.status(500).json({message: 'Collection with this id not found'})
+            }
+            await Collection.update({title, description, theme, image_url}, {where: {id: _id}})
+
+            await CollectionField.destroy({
+                where: {
+                    collectionId: _id,
+                },
+            });            
+
+            customFields.forEach(async field => {
+                const { name, type, isRequired } = field;
+                await CollectionField.create({
+                    collectionId: _id,
+                    field_name: name,
+                    field_type: type,
+                    isRequired: isRequired,
+                });
+            });
+            
+            return res.json({message: 'Collection has been successfully updated'})
         } catch (e) {
             return res.status(500).json({message: 'Server error'})
         }

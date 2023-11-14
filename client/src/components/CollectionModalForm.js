@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Button, Modal, Form, Input, Select, Upload, Spin, Row } from 'antd';
 import { useDropzone } from 'react-dropzone';
-import { uploadCollectionFile, createCollection } from '../http/collectionAPI';
+import { uploadCollectionFile, createCollection, updateCollectionById } from '../http/collectionAPI';
+import { deleteItemsByCollectionId } from '../http/itemAPI'
 import { UploadOutlined } from '@ant-design/icons';
 import CollectionCustomFields from './CollectionCustomFields';
 import './Modal.css'
@@ -10,15 +11,18 @@ import './Modal.css'
 
 const { Option } = Select;
 
-function ModalForm({ title, okText, onCloseModal }) {
+function CollectionModalForm({ title, okText, collection, onCloseModal }) {
     const [isModalVisible, setIsModalVisible] = useState(true);
     const [form] = Form.useForm();
     const [imageFile, setImageFile] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
+    const [isUploading, setIsUploading] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [isCreating, setIsCreating] = useState(false);
+    const [hasRequiredChanged, setHasRequiredChanged] = useState(false);
 
     const [customFields, setCustomFields] = useState([]);
+
+    const [initialCustomFields, setInitialCustomFields] = useState([]);
 
     // const CLOUDINARY_UPLOAD_PRESET = process.env.CLOUDINARY_UPLOAD_PRESET;
 	// const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
@@ -37,8 +41,34 @@ function ModalForm({ title, okText, onCloseModal }) {
     ];
 
 
+    useEffect(() => {
+        if(collection) {
+            const fieldValues = { title: collection.title, description: collection.description, theme: collection.theme };
+            
+            form.setFieldsValue(fieldValues);
+
+            if (collection.image_url) {
+                setImageUrl(collection.image_url);
+            }
+
+            if (collection.collection_fields && collection.collection_fields.length > 0) {
+                const customFieldsData = collection.collection_fields.map((field) => ({
+                    name: field.field_name,
+                    type: field.field_type,
+                    isRequired: field.isRequired,
+                }));
+                const initialCustomFieldsData = JSON.parse(JSON.stringify(customFieldsData));
+
+                setCustomFields(customFieldsData);
+                setInitialCustomFields(initialCustomFieldsData);
+            }
+        }
+    }, [collection])
+
+
+    
     const addCustomField = () => {
-        setCustomFields([...customFields, { name: '', type: 'string' }]);
+        setCustomFields([...customFields, { name: '', type: 'string', isRequired: false }]);
     };
 
 
@@ -48,11 +78,17 @@ function ModalForm({ title, okText, onCloseModal }) {
         setCustomFields(updatedCustomFields);
     };
       
-      const handleCustomFieldTypeChange = (index, newType) => {
+    const handleCustomFieldTypeChange = (index, newType) => {
         const updatedCustomFields = [...customFields];
         updatedCustomFields[index].type = newType;
         setCustomFields(updatedCustomFields);
     };
+
+    const handleRequiredChange = (index, isChecked) => {
+        const updatedCustomFields = [...customFields];
+        updatedCustomFields[index].isRequired = isChecked;
+        setCustomFields(updatedCustomFields);
+      };
 
     const handleDeleteCustomField = (index) => {
         const updatedCustomFields = [...customFields];
@@ -71,7 +107,7 @@ function ModalForm({ title, okText, onCloseModal }) {
     const { getRootProps, getInputProps } = useDropzone({
         accept: 'image/*',
         onDrop: async (acceptedFiles) => {
-            setIsLoading(true);
+            setIsUploading(true);
             if (acceptedFiles && acceptedFiles.length > 0) {
                 setImageFile(acceptedFiles[0]);
                 const data = new FormData();
@@ -87,7 +123,7 @@ function ModalForm({ title, okText, onCloseModal }) {
                         console.log('Error: ', e.message);
                     })
             }
-            setIsLoading(false);
+            setIsUploading(false);
         },
     });
 
@@ -96,20 +132,83 @@ function ModalForm({ title, okText, onCloseModal }) {
     const handleCreate =  () => {
         form.validateFields()
           .then(async (values) => {
-            setIsCreating(true);
+            setIsLoading(true);
             const customFieldsData = customFields.map(field => ({
                 name: field.name,
-                type: field.type
+                type: field.type,
+                isRequired: field.isRequired
             }));
 
             await createCollection(values.title, values.description, values.theme, imageUrl, sessionStorage.getItem('userId'), customFieldsData)
-            setIsCreating(false);
+            setIsLoading(false);
             closeModal();
         })
           .catch((errorInfo) => {
             console.log('Validation error:', errorInfo);
         });
     };
+
+    const handleEdit = () => {
+        const hasRequiredChanged = customFields.some((currentField) => {
+            const initialField = initialCustomFields.find((field) => field.name === currentField.name);
+    
+            const hasChanged =
+                initialField &&
+                ((initialField.isRequired && initialField.type !== currentField.type) || 
+                    (currentField.isRequired && !initialField.isRequired));
+    
+            return hasChanged;
+        });
+    
+        const hasNewRequiredFields = customFields.some((currentField) => {
+            const initialField = initialCustomFields.find((field) => field.name === currentField.name);
+            const isNewRequired = !initialField && currentField.isRequired;
+            return isNewRequired;
+        });
+    
+        const shouldShowWarning = hasRequiredChanged || hasNewRequiredFields;
+    
+        setHasRequiredChanged(shouldShowWarning);
+        if (shouldShowWarning) {
+            Modal.confirm({
+                title: 'Warning',
+                content: 'Changing or adding a new required field will delete all items. Are you sure?',
+                okText: 'Yes',
+                cancelText: 'No',
+                onOk: async () => {
+                    await deleteItemsByCollectionId(collection.id)
+                    setHasRequiredChanged(false);
+                    // performEdit();
+                },
+            });
+        } else {
+            performEdit();
+        }
+    };
+
+    const performEdit =  () => {
+        form.validateFields()
+          .then(async (values) => {
+            setIsLoading(true);
+            const customFieldsData = customFields.map(field => ({
+                name: field.name,
+                type: field.type,
+                isRequired: field.isRequired
+            }));
+
+            await updateCollectionById(collection.id, values.title, values.description, values.theme, imageUrl, customFieldsData)
+            setIsLoading(false);
+            closeModal();
+        })
+          .catch((errorInfo) => {
+            console.log('Validation error:', errorInfo);
+        });
+    };
+
+
+    
+
+
 
     return (
         <Modal
@@ -118,9 +217,9 @@ function ModalForm({ title, okText, onCloseModal }) {
             okText={okText}
             cancelText="Cancel"
             onCancel={closeModal}
-            onOk={handleCreate}
+            onOk={collection ? handleEdit : handleCreate}
         >
-            <Spin spinning={isCreating}>
+            <Spin spinning={isLoading}>
                 <Form form={form} layout="vertical">
                     <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Введите Title' }]}>
                         <Input />
@@ -136,7 +235,7 @@ function ModalForm({ title, okText, onCloseModal }) {
                             <Option value="Cars">Cars</Option>
                         </Select>
                     </Form.Item>
-                    {isLoading ? <Row justify="center" align="middle"><Spin spinning={isLoading} /></Row> :
+                    {isUploading ? <Row justify="center" align="middle"><Spin spinning={isUploading} /></Row> :
                     <div {...getRootProps()} 
                         className="dropzone"
                     >
@@ -154,6 +253,7 @@ function ModalForm({ title, okText, onCloseModal }) {
                         customFields={customFields}
                         handleCustomFieldNameChange={handleCustomFieldNameChange}
                         handleCustomFieldTypeChange={handleCustomFieldTypeChange}
+                        handleRequiredChange={handleRequiredChange}
                         handleDeleteCustomField={handleDeleteCustomField}
                         fieldsOptions={fieldsOptions}
                     />
@@ -168,4 +268,4 @@ function ModalForm({ title, okText, onCloseModal }) {
     );
 }
 
-export default ModalForm;
+export default CollectionModalForm;

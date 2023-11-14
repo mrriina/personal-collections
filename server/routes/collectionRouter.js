@@ -7,5 +7,6 @@ router.post('/getCollectionsByProfileId', collectionController.getCollectionsByP
 router.get('/getCollections', collectionController.getCollections)
 router.get('/getCollectionById/:id', collectionController.getCollectionById)
 router.delete('/deleteCollection/:id', collectionController.deleteCollection)
+router.put('/updateCollection/:id', collectionController.updateCollectionById)
 
 module.exports = router

@@ -31,6 +31,15 @@ export async function deleteItem(id) {
     }
 }
 
+export async function deleteItemsByCollectionId(collectionId) {
+    try {
+        const response = await $host.delete(`api/item/deleteItemsByCollectionId`, {collectionId: collectionId})
+        return response
+    } catch (e) {
+        console.log(`Server error: ${e.message}`);
+    }
+}
+
 
 export async function updateItemById(id, title, tags, customFieldsValues){
     try {

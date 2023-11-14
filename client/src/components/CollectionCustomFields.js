@@ -1,9 +1,9 @@
-import { Button, Modal, Form, Input, Select, Upload } from 'antd';
+import { Button, Modal, Form, Input, Select, Upload, Checkbox  } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
-function CollectionCustomFields({ customFields, handleCustomFieldNameChange, handleCustomFieldTypeChange, handleDeleteCustomField, fieldsOptions }) {
+function CollectionCustomFields({ customFields, handleCustomFieldNameChange, handleCustomFieldTypeChange, handleRequiredChange, handleDeleteCustomField, fieldsOptions }) {
     return (
         <div style={{ marginTop: 16 }}>
         {customFields.map((field, index) => (
@@ -25,6 +25,13 @@ function CollectionCustomFields({ customFields, handleCustomFieldNameChange, han
                 </Option>
               ))}
             </Select>
+            <Checkbox
+              checked={field.isRequired}
+              onChange={(e) => handleRequiredChange(index, e.target.checked)}
+              style={{ marginRight: 8 }}
+            >
+              Required
+            </Checkbox>
             <Button icon={<DeleteOutlined />} onClick={() => handleDeleteCustomField(index)} />
           </div>
         ))}

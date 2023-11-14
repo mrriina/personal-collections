@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Spin, Row, Col } from 'antd';
-import ModalForm from '../components/ModalForm';
+import CollectionModalForm from '../components/CollectionModalForm';
 import { getCollectionsByProfileId, deleteCollection } from '../http/collectionAPI'
 import CollectionCard from '../components/CollectionCard';
 import { PlusOutlined } from '@ant-design/icons';
@@ -8,9 +8,9 @@ import { PlusOutlined } from '@ant-design/icons';
 function Profile() {
   const [collections, setCollections] = useState([]);
   const [createCollectionModal, setCreateCollectionModal] = useState(false);
+  const [editCollectionModal, setEditCollectionModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const modalTitle = 'Create collection';
-  const modalOkText = 'Create';
+  const [selectedCollection, setSelectedCollection] = useState();
 
   useEffect(() => {
     getCollections();
@@ -23,11 +23,16 @@ function Profile() {
     setIsLoading(false);
   }
 
+  const handleEditCollection = async (id) => {
+    setSelectedCollection(collections.find(collection => collection.id === id));
+    setEditCollectionModal(true);
+    
+  };
 
   const handleDeleteCollection = async (id) => {
     await deleteCollection(id);
     getCollections();
-};
+  };
 
 
   return (
@@ -49,6 +54,7 @@ function Profile() {
                 title={collection.title}
                 theme={collection.theme}
                 image={collection.image_url}
+                handleEditCollection={handleEditCollection}
                 handleDeleteCollection={handleDeleteCollection}
               />
             ))}
@@ -56,7 +62,16 @@ function Profile() {
         </div>
         
         {createCollectionModal && (
-          <ModalForm title={modalTitle} okText={modalOkText} onCloseModal={() => {setCreateCollectionModal(false); getCollections()}} />
+          <CollectionModalForm title='Create collection' 
+                               okText='Create' 
+                               onCloseModal={() => {setCreateCollectionModal(false); getCollections()}} />
+        )}
+
+        {editCollectionModal && (
+          <CollectionModalForm title='Edit collection' 
+                               okText='Edit'
+                               collection={selectedCollection}
+                               onCloseModal={() => {setEditCollectionModal(false); getCollections()}} />
         )}
     </div>
   );

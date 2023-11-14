@@ -23,6 +23,7 @@ const CollectionField = sequelize.define('collection_field', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     field_name: { type: DataTypes.STRING, require:true, allowNull: false},
     field_type: { type: DataTypes.STRING, require:true, allowNull: false},
+    isRequired: { type: DataTypes.BOOLEAN, require:true, allowNull: false},
 });
 
 

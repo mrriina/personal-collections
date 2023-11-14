@@ -87,12 +87,12 @@ function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
         >
             <Spin spinning={isLoading}>
                 <Form form={form} layout="vertical">
-                    <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Введите Title' }]}>
+                    <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Enter Title' }]}>
                         <Input />
                     </Form.Item>
                     <Form.Item  name="tags" 
                                 label="Tags" 
-                                rules={[{ required: true, message: 'Введите Tags' }]}>
+                                rules={[{ required: true, message: 'Enter Tags' }]}>
                         <Input onChange={(e) => {
                                     const value = e.target.value;
                                     const formattedValue = value
@@ -108,7 +108,8 @@ function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
                     {customFields.map((field) => (
                         <Form.Item  name={field.field_name} 
                                     label={field.field_name.charAt(0).toUpperCase() + field.field_name.slice(1)} 
-                                    rules={[{ required: true, message: `Введите ${field.field_name}` }]}>
+                                    rules={field.isRequired ? [{required: true, message: `Enter ${field.field_name}`}] : null}
+                                    >
                             {field.field_type === 'integer' ? <InputNumber /> : <Input type={field.field_type} />}
                         </Form.Item>
                     ))}

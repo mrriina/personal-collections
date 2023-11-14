@@ -65,6 +65,21 @@ class ItemController {
     }
 
 
+    async deleteItemsByCollectionId(req, res) {
+        try {
+            const {collectionId} = req.body
+            const items = await CollectionItem.findOne({where: {collectionId: collectionId}})
+            if(!items) {
+                return res.status(500).json({message: 'Items with this collection id not found'})
+            }
+            await CollectionItem.destroy({where: {collectionId: collectionId}})
+            return res.status(200).json({message: 'Items have been successfully deleted'})
+        } catch (e) {
+            return res.status(500).json({message: 'Server error'})
+        }
+    }
+
+
     async updateItemById(req, res) {
         try {
 

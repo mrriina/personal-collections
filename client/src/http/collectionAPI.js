@@ -59,3 +59,12 @@ export async function deleteCollection(id) {
         console.log(`Server error: ${e.message}`);
     }
 }
+
+export async function updateCollectionById(id, title, description, theme, image_url, customFields){
+    try {
+        const response = await $host.put(`api/collection/updateCollection/${id}`, {title, description, theme, image_url, customFields})
+        return response
+    } catch (e) {
+        console.log('Error: ', e);
+    }
+}
