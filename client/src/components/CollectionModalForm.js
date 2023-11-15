@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
+import SimpleMDE from 'react-simplemde-editor';
+import 'easymde/dist/easymde.min.css';
 import { Button, Modal, Form, Input, Select, Upload, Spin, Row } from 'antd';
 import { useDropzone } from 'react-dropzone';
 import { uploadCollectionFile, createCollection, updateCollectionById } from '../http/collectionAPI';
@@ -7,6 +8,7 @@ import { deleteItemsByCollectionId } from '../http/itemAPI'
 import { UploadOutlined } from '@ant-design/icons';
 import CollectionCustomFields from './CollectionCustomFields';
 import './Modal.css'
+import FormItem from 'antd/es/form/FormItem';
 
 
 const { Option } = Select;
@@ -23,6 +25,8 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
     const [customFields, setCustomFields] = useState([]);
 
     const [initialCustomFields, setInitialCustomFields] = useState([]);
+
+    const [markdown, setMarkdown] = React.useState('');
 
     // const CLOUDINARY_UPLOAD_PRESET = process.env.CLOUDINARY_UPLOAD_PRESET;
 	// const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
@@ -138,7 +142,7 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
                 type: field.type,
                 isRequired: field.isRequired
             }));
-
+            
             await createCollection(values.title, values.description, values.theme, imageUrl, sessionStorage.getItem('userId'), customFieldsData)
             setIsLoading(false);
             closeModal();
@@ -178,7 +182,7 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
                 onOk: async () => {
                     await deleteItemsByCollectionId(collection.id)
                     setHasRequiredChanged(false);
-                    // performEdit();
+                    performEdit();
                 },
             });
         } else {
@@ -225,7 +229,8 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
                         <Input />
                     </Form.Item>
                     <Form.Item name="description" label="Description" rules={[{ required: true, message: 'Введите Description' }]}>
-                        <Input.TextArea />
+                        {/* <Input.TextArea /> */}
+                        <SimpleMDE value={markdown} onChange={(value) => setMarkdown(value)} />
                     </Form.Item>
                     <Form.Item name="theme" label="Theme" rules={[{ required: true, message: 'Выберите Theme' }]}>
                         <Select>

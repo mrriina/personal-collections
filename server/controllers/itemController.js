@@ -49,6 +49,25 @@ class ItemController {
     }
 
 
+    async getLatestItems(req, res) {
+        try {
+          const latestItems = await CollectionItem.findAll({
+            order: [['createdAt', 'DESC']],
+            limit: 10,
+          });
+      
+          if (!latestItems || latestItems.length === 0) {
+            return res.status(404).json({ message: 'Latest items not found' });
+          }
+      
+          return res.json({ latestItems });
+        } catch (error) {
+          console.error('Server error:', error);
+          return res.status(500).json({ message: 'Server error' });
+        }
+    }
+
+
 
     async deleteItem(req, res) {
         try {
@@ -67,7 +86,7 @@ class ItemController {
 
     async deleteItemsByCollectionId(req, res) {
         try {
-            const {collectionId} = req.body
+            const collectionId = req.params.id
             const items = await CollectionItem.findOne({where: {collectionId: collectionId}})
             if(!items) {
                 return res.status(500).json({message: 'Items with this collection id not found'})

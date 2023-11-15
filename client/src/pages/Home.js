@@ -25,7 +25,7 @@ function Home() {
 
         <div display='flex' align='center' style={{ minHeight: '100vh', marginTop: '5%' }}>
           <Spin spinning={isLoading} > 
-            {collections.map((collection) => (
+            {/* {collections.map((collection) => (
               <CollectionCard
                 key={collection.id}
                 id={collection.id}
@@ -33,7 +33,7 @@ function Home() {
                 theme={collection.theme}
                 image={collection.image_url}
               />
-            ))}
+            ))} */}
           </Spin>
         </div>
     </div>

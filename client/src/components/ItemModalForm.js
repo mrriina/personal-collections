@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, Modal, Form, Input, Select, Upload, Spin, Row, InputNumber  } from 'antd';
+import { Button, Modal, Form, Input, Select, Upload, Spin, Row, InputNumber, Checkbox  } from 'antd';
 import { useDropzone } from 'react-dropzone';
 import { createItem, updateItemById } from '../http/itemAPI';
 import { UploadOutlined } from '@ant-design/icons';
 import CollectionCustomFields from './CollectionCustomFields';
 import './Modal.css'
+import FormItem from 'antd/es/form/FormItem';
 
 
 const { Option } = Select;
@@ -14,6 +15,7 @@ function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
     const [isModalVisible, setIsModalVisible] = useState(true);
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
+    const [checked, setChecked] = useState(true);
     const { id } = useParams();
 
     useEffect(() => {
@@ -45,6 +47,8 @@ function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
                 }
             });
             
+            console.log('customFieldsValues=', customFieldsValues);
+            console.log('values=', values);
             const resp = await updateItemById(item.id, values.title, values.tags, customFieldsValues)
             setIsLoading(false);
             closeModal();
@@ -106,12 +110,20 @@ function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
 
 
                     {customFields.map((field) => (
-                        <Form.Item  name={field.field_name} 
-                                    label={field.field_name.charAt(0).toUpperCase() + field.field_name.slice(1)} 
-                                    rules={field.isRequired ? [{required: true, message: `Enter ${field.field_name}`}] : null}
-                                    >
-                            {field.field_type === 'integer' ? <InputNumber /> : <Input type={field.field_type} />}
-                        </Form.Item>
+                        field.field_type === 'checkbox' ?
+                            <FormItem name={field.field_name}
+                                      valuePropName="checked"
+                                      initialValue={item ? item.customFields[field.field_name] : false}
+                                      getValueFromEvent={(e) => e.target.checked ? true : false}>
+                                <Checkbox onChange={(e) => setChecked(e.target.checked)}>{field.field_name.charAt(0).toUpperCase() + field.field_name.slice(1)}</Checkbox>
+                            </FormItem> 
+                        :
+                            <Form.Item  name={field.field_name} 
+                                        label={field.field_name.charAt(0).toUpperCase() + field.field_name.slice(1)} 
+                                        rules={field.isRequired ? [{required: true, message: `Enter ${field.field_name}`}] : null}
+                                        >
+                                {field.field_type === 'integer' ? <InputNumber /> : <Input type={field.field_type} />}
+                            </Form.Item>
                     ))}
 
                 </Form>
