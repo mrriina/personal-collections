@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const {Collection, CollectionField} = require('../models/models')
+const {Collection, CollectionField, CollectionItem} = require('../models/models')
 
 class CollectionController {
 
@@ -86,6 +86,30 @@ class CollectionController {
             return res.status(500).json({message: 'Server error'})
         }
     }
+
+
+    async getTopCollections(req, res) {
+        try {
+          const topCollections = await Collection.findAll({
+            attributes: ['id', 'title'],
+            include: [
+              {
+                model: CollectionItem,
+                attributes: [[sequelize.fn('COUNT', sequelize.col('collection_items.id')), 'itemCount']],
+                as: 'collection_items',
+              },
+            ],
+            group: ['Collection.id'],
+            order: [[sequelize.literal('itemCount'), 'DESC']],
+            limit: 5,
+          });
+      
+          return res.json({ topCollections });
+        } catch (error) {
+          console.error('Server error:', error);
+          return res.status(500).json({ message: 'Server error' });
+        }
+      }
 
 
 

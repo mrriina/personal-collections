@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Spin, Row, Col } from 'antd';
+import { Button, Spin, Row, Col, Table } from 'antd';
 import { getCollections } from '../http/collectionAPI'
 import { getLatestItems } from '../http/itemAPI'
 import CollectionCard from '../components/CollectionCard';
@@ -12,8 +12,22 @@ function Home() {
 
   const columns = [
     { title: 'Title', dataIndex: 'title', key: 'title'},
-    { title: 'Collection', dataIndex: 'collection', key: 'collection'},
-    { title: 'Author', dataIndex: 'author', key: 'author'},
+    { title: 'Collection', dataIndex: 'collection', key: 'collection',
+        render: (collection) => {
+          if (collection && collection.title) {
+            return collection.title;
+          }
+          return null;
+        }
+    },
+    { title: 'Author', dataIndex: 'collection', key: 'author',
+        render: (collection) => {
+          if (collection && collection.profile && collection.profile.name) {
+            return collection.profile.name;
+          }
+          return null;
+        }
+    },
   ];
 
   useEffect(() => {
@@ -42,6 +56,12 @@ function Home() {
 
         <div display='flex' align='center' style={{ minHeight: '100vh', marginTop: '5%' }}>
           <Spin spinning={isLoading} > 
+            <Table  dataSource={latestItems} 
+                    columns={columns}
+                    scroll={{
+                        x: 700,
+                    }}
+              />
             {/* {collections.map((collection) => (
               <CollectionCard
                 key={collection.id}

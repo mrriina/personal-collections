@@ -1,4 +1,4 @@
-const {CollectionItem, CollectionField} = require('../models/models')
+const {CollectionItem, CollectionField, Collection, Profile} = require('../models/models')
 
 class ItemController {
 
