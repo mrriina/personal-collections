@@ -53,7 +53,7 @@ class ItemController {
         try {
           const latestItems = await CollectionItem.findAll({
             order: [['createdAt', 'DESC']],
-            limit: 10,
+            limit: 5,
           });
       
           if (!latestItems || latestItems.length === 0) {
