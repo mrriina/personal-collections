@@ -57,9 +57,20 @@ class ItemController {
             include: [
                 {
                   model: Collection,
+                  as: 'Collection',
                   attributes: ['title'],
                 },
-                
+                {
+                  model: Collection,
+                  as: 'ItemCollection',
+                  attributes: [],
+                  include: [
+                    {
+                      model: Profile,
+                      attributes: ['name'],
+                    },
+                  ],
+                },
               ],
           });
       
