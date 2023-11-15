@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const {Collection, CollectionField, CollectionItem} = require('../models/models')
+const {Collection, CollectionField, CollectionItem, sequelize} = require('../models/models')
 
 class CollectionController {
 
