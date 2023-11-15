@@ -1,20 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Spin, Row, Col } from 'antd';
 import { getCollections } from '../http/collectionAPI'
+import { getLatestItems } from '../http/itemAPI'
 import CollectionCard from '../components/CollectionCard';
 
 function Home() {
   const [collections, setCollections] = useState([]);
+  const [latestItems, setLatestItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+
+  const columns = [
+    { title: 'Title', dataIndex: 'title', key: 'title'},
+    { title: 'Collection', dataIndex: 'collection', key: 'collection'},
+    { title: 'Author', dataIndex: 'author', key: 'author'},
+  ];
 
   useEffect(() => {
     getCollectionsInfo();
+    getLatestItemsInfo();
   }, [])
 
   const getCollectionsInfo = async () => {
     setIsLoading(true);
     const data = await getCollections();
     setCollections(data.collections);
+    setIsLoading(false);
+  }
+
+  const getLatestItemsInfo = async () => {
+    setIsLoading(true);
+    const data = await getLatestItems();
+    setLatestItems(data.latestItems);
     setIsLoading(false);
   }
 

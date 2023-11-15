@@ -54,6 +54,22 @@ class ItemController {
           const latestItems = await CollectionItem.findAll({
             order: [['createdAt', 'DESC']],
             limit: 5,
+            include: [
+                {
+                  model: Collection,
+                  attributes: ['title'],
+                },
+                {
+                  model: Collection,
+                  attributes: [],
+                  include: [
+                    {
+                      model: Profile,
+                      attributes: ['name'],
+                    },
+                  ],
+                },
+              ],
           });
       
           if (!latestItems || latestItems.length === 0) {
