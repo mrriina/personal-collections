@@ -21,6 +21,14 @@ export async function getItems(collectionId) {
     }
 }
 
+export async function getItemById(id) {
+    try {
+        const {data} = await $host.get(`api/item/getItem/${id}`)
+        return data
+    } catch (e) {
+        console.log(`Server error: ${e.message}`);
+    }
+}
 
 export async function getLatestItems() {
     try {
@@ -44,7 +52,6 @@ export async function deleteItem(id) {
 export async function deleteItemsByCollectionId(collectionId) {
     try {
         const response = await $host.delete(`api/item/deleteItemsByCollectionId/${collectionId}`)
-        console.log('response=', response);
         return response
     } catch (e) {
         console.log(`Server error: ${e.message}`);

@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const {Collection, CollectionField, CollectionItem, sequelize} = require('../models/models')
+const {Collection, CollectionField, CollectionItem} = require('../models/models')
+const sequelize = require('../db')
 
 class CollectionController {
 
@@ -83,33 +84,38 @@ class CollectionController {
             }
             return res.json({collections})
         } catch (e) {
-            return res.status(500).json({message: 'Server error'})
+            return res.status(500).json({ message: 'Server error', error: e.message });
         }
     }
 
 
-    async getTopCollections(req, res) {
-        try {
-          const topCollections = await Collection.findAll({
-            attributes: ['id', 'title'],
-            include: [
-              {
-                model: CollectionItem,
-                attributes: [[sequelize.fn('COUNT', sequelize.col('collection_items.id')), 'itemCount']],
-                as: 'collection_items',
-              },
-            ],
-            group: ['Collection.id'],
-            order: [[sequelize.literal('itemCount'), 'DESC']],
-            limit: 5,
-          });
-      
-          return res.json({ topCollections });
-        } catch (error) {
-          console.error('Server error:', error);
-          return res.status(500).json({ message: 'Server error' });
-        }
-      }
+    // async getTopCollections(req, res) {
+    //     try {
+    //         const collections = await Collection.findAll({
+    //             attributes: ['id', 'title'],
+    //             include: [
+    //               {
+    //                 model: CollectionItem,
+    //                 attributes: [],
+    //                 required: false,
+    //               },
+    //             ],
+    //             group: ['collection.id'],
+    //             order: [[sequelize.fn('COUNT', sequelize.col('collection_items.id')), 'DESC']], // Сортировка по количеству элементов
+    //           });
+          
+    //           const collectionsWithItemCount = collections.map((collection) => ({
+    //             id: collection.id,
+    //             title: collection.title,
+    //             itemCount: collection.collectionItems.length || 0, // Используйте длину массива collectionItems
+    //           }));
+          
+    //           return collectionsWithItemCount;
+    //       } catch (error) {
+    //         console.error('Error finding top Collections with most CollectionItems:', error);
+    //         throw error;
+    //       }
+    //   }
 
 
 

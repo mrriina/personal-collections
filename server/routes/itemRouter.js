@@ -4,6 +4,7 @@ const itemController = require('../controllers/itemController')
 
 router.post('/create', itemController.createItem)
 router.post('/getItems', itemController.getItemsById)
+router.get('/getItem/:id', itemController.getItemById)
 router.get('/getLatestItems', itemController.getLatestItems)
 router.delete('/deleteItem/:id', itemController.deleteItem)
 router.delete('/deleteItemsByCollectionId/:id', itemController.deleteItemsByCollectionId)

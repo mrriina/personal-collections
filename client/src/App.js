@@ -7,6 +7,7 @@ import Registration from './pages/Registration';
 import Home from './pages/Home';
 import Profile from './pages/Profile'
 import Collection from './pages/Collection';
+import Item from './pages/Item';
 import Navbar from './components/NavBar';
 
 function App() {
@@ -23,7 +24,8 @@ function App() {
           <Route path="/registration" element={<Registration />} exact />
           <Route path="/" element={<Home />} exact />
           <Route path="/profile" element={<Profile />} exact />
-          <Route path="/collection/:id" element={<Collection />} exact /> 
+          <Route path="/collection/:id" element={<Collection />} exact />
+          <Route path="/item/:id" element={<Item />} exact /> 
         {/* </Route> */}
       </Routes>
     </div>

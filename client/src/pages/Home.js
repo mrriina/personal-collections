@@ -3,6 +3,7 @@ import { Button, Spin, Row, Col, Table } from 'antd';
 import { getCollections } from '../http/collectionAPI'
 import { getLatestItems } from '../http/itemAPI'
 import CollectionCard from '../components/CollectionCard';
+import { Link } from 'react-router-dom';
 
 function Home() {
   const [collections, setCollections] = useState([]);
@@ -11,7 +12,13 @@ function Home() {
 
 
   const columns = [
-    { title: 'Title', dataIndex: 'title', key: 'title'},
+    { title: 'Title', dataIndex: 'title', key: 'title',
+      render: (title, record) => (
+        <Link to={`/item/${record.id}`}>
+          {title}
+        </Link>
+      )
+    },
     { title: 'Collection', dataIndex: 'collection', key: 'collection',
         render: (collection) => {
           if (collection && collection.title) {

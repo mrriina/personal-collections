@@ -49,6 +49,31 @@ class ItemController {
     }
 
 
+    async getItemById(req, res) {
+        try {
+            const _id = req.params.id
+            const item = await CollectionItem.findOne({
+                where: {id: _id},
+                include: [Collection],
+            })
+
+            if(!item) {
+                return res.status(500).json({message: 'Item not found'})
+            }
+
+            const { collection } = item;
+
+            if (!collection) {
+                return res.status(404).json({ message: 'Collection not found for this item' });
+              }
+
+              return res.json({ item, collection });
+        } catch (e) {
+            return res.status(500).json({message: 'Server error'})
+        }
+    }
+
+
     async getLatestItems(req, res) {
         try {
           const latestItems = await CollectionItem.findAll({
