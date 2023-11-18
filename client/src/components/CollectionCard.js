@@ -2,9 +2,10 @@ import React from 'react';
 import { Card, Button, Divider } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const CollectionCard = ({ id, title, theme, image, handleEditCollection, handleDeleteCollection }) => {
-
+    const { t } = useTranslation();
     const defaultImageUrl = 'https://res.cloudinary.com/dllivv10p/image/upload/v1699177267/yzrkgw8kkl5tttonnun3.jpg';
 
     return (
@@ -13,10 +14,10 @@ const CollectionCard = ({ id, title, theme, image, handleEditCollection, handleD
             cover={<img alt={title} src={image || defaultImageUrl} style={{width: '100%', height: '150px', objectFit: 'cover'}} />}
             actions={[
                 <Button onClick={() => handleEditCollection(id)} icon={<EditOutlined />} type="primary" ghost>
-                    Edit
+                    {t('collection.edit')}
                 </Button>,
                 <Button onClick={() => handleDeleteCollection(id)} icon={<DeleteOutlined />} danger>
-                    Delete
+                    {t('collection.delete')}
                 </Button>,
             ]}
         >

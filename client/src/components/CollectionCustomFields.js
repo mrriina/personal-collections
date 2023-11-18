@@ -1,15 +1,17 @@
 import { Button, Modal, Form, Input, Select, Upload, Checkbox  } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 
 const { Option } = Select;
 
 function CollectionCustomFields({ customFields, handleCustomFieldNameChange, handleCustomFieldTypeChange, handleRequiredChange, handleDeleteCustomField, fieldsOptions }) {
-    return (
+  const { t } = useTranslation();  
+  return (
         <div style={{ marginTop: 16 }}>
         {customFields.map((field, index) => (
           <div key={index} style={{ display: 'flex', marginBottom: 16, alignItems: 'center' }}>
             <Input
-              placeholder="Field Name"
+              placeholder={t('collection.field__name')}
               value={field.name}
               onChange={(e) => handleCustomFieldNameChange(index, e.target.value)}
               style={{ marginRight: 8, flex: 1 }}
@@ -30,7 +32,7 @@ function CollectionCustomFields({ customFields, handleCustomFieldNameChange, han
               onChange={(e) => handleRequiredChange(index, e.target.checked)}
               style={{ marginRight: 8 }}
             >
-              Required
+              {t('collection.required')}
             </Checkbox>
             <Button icon={<DeleteOutlined />} onClick={() => handleDeleteCustomField(index)} />
           </div>

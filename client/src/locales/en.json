@@ -4,5 +4,62 @@
         "signup": "Sign up",
         "logout": "Log out",
         "language": "EN"
+    },
+    
+    "auth": {
+        "register": "Register",
+        "log_in": "Log In",
+        "name": "Name",
+        "email": "Email",
+        "password": "Password",
+        "confirm_password": "Confirm Password",
+        "already_have_an_account": "Already have an account?",
+        "dont_have_an_account": "Don't have an account?",
+        "rule_required": "Please fill in all the fields!",
+        "rule_email": "The input is not a valid email!",
+        "rule_passwords_match": "The two passwords do not match!",
+        "rule_confirm_password": "Please confirm your password!",
+        "successfully_registered": "Successfully registered!",
+        "user_not_found": "User not found!"
+    },
+
+    "profile": {
+        "create": "Create"
+    },
+
+    "collection": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "description": "Description",
+        "theme": "Theme",
+        "profile": "Profile",
+        "additional_fields": "Additional fields",
+        "cancel": "Cancel",
+        "title": "Title",
+        "books": "Books",
+        "coins": "Coins",
+        "postcards": "Postcards",
+        "cars": "Cars",
+        "plants": "Plants",
+        "antiques": "Antiques",
+        "other": "Other",
+        "image_selected": "Image selected",
+        "drag": "Drag the image here or click to select a file",
+        "add_field": "Add Field",
+        "number": "Numbers",
+        "string": "String",
+        "text": "Text",
+        "checkbox": "Checkbox",
+        "date": "Date",
+        "warning": "Warning",
+        "warning_content": "Changing or adding a new required field will delete all items. Are you sure?",
+        "yes": "Yes",
+        "no": "No",
+        "field__name": "Field Name",
+        "required": "Required",
+        "create_collection": "Create collection",
+        "edit_collection": "Edit collection"
+
+
     }
 }

@@ -1,56 +1,54 @@
 import React, {useState} from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Card, Form, Input, Row, Col } from 'antd';
+import { Button, Card, Form, Input, Row, Col, message } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import DotLoader from "react-spinners/DotLoader";
 import { login } from '../http/userAPI';
+import { useTranslation } from 'react-i18next';
 
 export default function Login() {
+    const { t } = useTranslation();
     let navigate = useNavigate();
-    const [errorMessage, setErrorMessage] = useState(null);
     
     const loginHandler = async (values) => {
         try {
             await login(values.email, values.password);
-            setErrorMessage(null);
             navigate("/profile");
         } catch (e) {
-            setErrorMessage(e.response.data.message);
+            message.error(t('auth.user_not_found'))
         }
     };
+
 
     return (
         <div style={{ background: "grey"}}>
             <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
                 <Col span={6}>
-                    <Card title={<h2 style={{ textAlign: 'center', fontSize: '1.5rem' }}>Login</h2>} style={{ minWidth: 300 }}>
+                    <Card title={<h2 style={{ textAlign: 'center', fontSize: '1.5rem' }}>{t('navbar.login')}</h2>} style={{ minWidth: 300 }}>
                         <Form
                             name="login-form"
                             initialValues={{ remember: true }}
                             onFinish={loginHandler}>
-                                {errorMessage && (
-                                    <div style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</div>
-                                )}
                             <Form.Item
                                 name="email"
                                 rules={[
-                                    { type: 'email', message: 'The input is not a valid email!' },
-                                    { required: true, message: 'Please input your email!' },
+                                    { type: 'email', message: t('auth.rule_email') },
+                                    { required: true, message: t('auth.rule_required') },
                                 ]}>
-                                <Input prefix={<MailOutlined />} placeholder="Email" />
+                                <Input prefix={<MailOutlined />} placeholder={t('auth.email')} />
                             </Form.Item>
                             <Form.Item
                                 name="password"
-                                rules={[{ required: true, message: 'Please input your password!' }]}>
-                                <Input.Password prefix={<LockOutlined />} placeholder="Password" />
+                                rules={[{ required: true, message: t('auth.rule_required') }]}>
+                                <Input.Password prefix={<LockOutlined />} placeholder={t('auth.password')} />
                             </Form.Item>
                             <Form.Item>
                                 <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-                                    Log In
+                                    {t('auth.log_in')}
                                 </Button>
                             </Form.Item>
                             <Form.Item>
-                                Don't have an account? <Link to="/registration">Register</Link>
+                                {t('auth.dont_have_an_account')}? <Link to="/registration">{t('auth.register')}</Link>
                             </Form.Item>
                         </Form>
                     </Card>

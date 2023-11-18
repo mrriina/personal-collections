@@ -1,8 +1,10 @@
 import React from 'react';
 import { Descriptions, Image, Space } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 
 function CollectionInfo({ collection }) {
+    const { t } = useTranslation();
     const defaultImageUrl = 'https://res.cloudinary.com/dllivv10p/image/upload/v1699177267/yzrkgw8kkl5tttonnun3.jpg';
 
     return (
@@ -16,17 +18,17 @@ function CollectionInfo({ collection }) {
             style={{ borderRadius: 10 }}
           />
           <Descriptions title={collection.title} column={1}>
-            <Descriptions.Item label="Description">
+            <Descriptions.Item label={t('collection.description')}>
               {collection.description}
             </Descriptions.Item>
-            <Descriptions.Item label="Theme">
+            <Descriptions.Item label={t('collection.theme')}>
               {collection.theme}
             </Descriptions.Item>
-            <Descriptions.Item label="Profile ID">
+            <Descriptions.Item label={t('collection.profile')}>
               {collection.profileId}
             </Descriptions.Item>
             {collection.collection_fields.length > 0 && (
-              <Descriptions.Item label="Collection Fields">
+              <Descriptions.Item label={t('collection.additional_fields')}>
                 <ul>
                   {collection.collection_fields.map((field) => (
                     <li key={field.id}>

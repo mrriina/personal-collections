@@ -6,18 +6,16 @@ import {
   UserAddOutlined,
 } from '@ant-design/icons';
 import { Link, useNavigate } from "react-router-dom";
-
 import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
 
 const { Header } = Layout;
 
 
-
 const Navbar = () => {
     let navigate = useNavigate();
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const [userAuth, setUserAuth] = useState(false);
-
 
     useEffect(() => {
         console.log('t(navbar.language)===', t('navbar.language'));
@@ -31,7 +29,6 @@ const Navbar = () => {
 
 
     const changeLanguage = (language) => {
-        console.log('language=', language);
         i18n.changeLanguage(language, (err, t) => {
           if (err) return console.log('something went wrong loading', err);
         });
@@ -56,15 +53,15 @@ const Navbar = () => {
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     {userAuth ? 
                         <Button icon={<UserAddOutlined />} onClick={() => logOut()}>
-                            Log out
+                            {t('navbar.logout')}
                         </Button>
                     :
                         <>
                         <Button icon={<UserAddOutlined />} onClick={() => navigate("/registration")}>
-                            Sign up
+                            {t('navbar.signup')}
                         </Button>
                         <Button icon={<LoginOutlined />} onClick={() => navigate("/login")} style={{ marginLeft: '20px' }}>
-                            Login
+                            {t('navbar.login')}
                         </Button>
                         </>
                     }

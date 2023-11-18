@@ -9,11 +9,13 @@ import { UploadOutlined } from '@ant-design/icons';
 import CollectionCustomFields from './CollectionCustomFields';
 import './Modal.css'
 import FormItem from 'antd/es/form/FormItem';
+import { useTranslation } from 'react-i18next';
 
 
 const { Option } = Select;
 
 function CollectionModalForm({ title, okText, collection, onCloseModal }) {
+    const { t } = useTranslation();
     const [isModalVisible, setIsModalVisible] = useState(true);
     const [form] = Form.useForm();
     const [imageFile, setImageFile] = useState(null);
@@ -37,11 +39,11 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
 
 
     const fieldsOptions = [
-        { value: 'integer', label: 'Numbers' },
-        { value: 'string', label: 'String' },
-        { value: 'text', label: 'Text' },
-        { value: 'checkbox', label: 'Checkbox' },
-        { value: 'date', label: 'Date' },
+        { value: 'integer', label: t('collection.number') },
+        { value: 'string', label: t('collection.string') },
+        { value: 'text', label: t('collection.text') },
+        { value: 'checkbox', label: t('collection.checkbox') },
+        { value: 'date', label: t('collection.date') },
     ];
 
 
@@ -175,10 +177,10 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
         setHasRequiredChanged(shouldShowWarning);
         if (shouldShowWarning) {
             Modal.confirm({
-                title: 'Warning',
-                content: 'Changing or adding a new required field will delete all items. Are you sure?',
-                okText: 'Yes',
-                cancelText: 'No',
+                title: t('collection.warning'),
+                content: t('collection.warning_content'),
+                okText: t('collection.yes'),
+                cancelText: t('collection.no'),
                 onOk: async () => {
                     await deleteItemsByCollectionId(collection.id)
                     setHasRequiredChanged(false);
@@ -210,34 +212,32 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
     };
 
 
-    
-
-
-
     return (
         <Modal
             visible={isModalVisible}
             title={title}
             okText={okText}
-            cancelText="Cancel"
+            cancelText={t('collection.cancel')}
             onCancel={closeModal}
             onOk={collection ? handleEdit : handleCreate}
         >
             <Spin spinning={isLoading}>
                 <Form form={form} layout="vertical">
-                    <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Введите Title' }]}>
+                    <Form.Item name="title" label={t('collection.title')} rules={[{ required: true, message: 'Введите Title' }]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item name="description" label="Description" rules={[{ required: true, message: 'Введите Description' }]}>
-                        {/* <Input.TextArea /> */}
+                    <Form.Item name="description" label={t('collection.description')} rules={[{ required: true, message: 'Введите Description' }]}>
                         <SimpleMDE value={markdown} onChange={(value) => setMarkdown(value)} />
                     </Form.Item>
-                    <Form.Item name="theme" label="Theme" rules={[{ required: true, message: 'Выберите Theme' }]}>
+                    <Form.Item name="theme" label={t('collection.theme')} rules={[{ required: true, message: 'Выберите Theme' }]}>
                         <Select>
-                            <Option value="Books">Books</Option>
-                            <Option value="Signs">Signs</Option>
-                            <Option value="Silverware">Silverware</Option>
-                            <Option value="Cars">Cars</Option>
+                            <Option value="Books">{t('collection.books')}</Option>
+                            <Option value="Coins">{t('collection.coins')}</Option>
+                            <Option value="Postcards">{t('collection.postcards')}</Option>
+                            <Option value="Cars">{t('collection.cars')}</Option>
+                            <Option value="Plants">{t('collection.plants')}</Option>
+                            <Option value="Antiques">{t('collection.antiques')}</Option>
+                            <Option value="Other">{t('collection.other')}</Option>
                         </Select>
                     </Form.Item>
                     {isUploading ? <Row justify="center" align="middle"><Spin spinning={isUploading} /></Row> :
@@ -246,9 +246,9 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
                     >
                         <input {...getInputProps()} />
                         {imageFile ? (
-                            <p>Image selected: {imageFile.name}</p>
+                            <p>{t('collection.image_selected')}: {imageFile.name}</p>
                         ) : (
-                            <p>Drag the image here or click to select a file</p>
+                            <p>{t('collection.drag')}</p>
                         )}
                     </div>
                     }
@@ -262,11 +262,7 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
                         handleDeleteCustomField={handleDeleteCustomField}
                         fieldsOptions={fieldsOptions}
                     />
-                    <Button onClick={addCustomField}>Add Field</Button>
-
-
-
-
+                    <Button onClick={addCustomField}>{t('collection.add_field')}</Button>
                 </Form>
             </Spin>
         </Modal>

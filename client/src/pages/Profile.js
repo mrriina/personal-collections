@@ -4,6 +4,8 @@ import CollectionModalForm from '../components/CollectionModalForm';
 import { getCollectionsByProfileId, deleteCollection } from '../http/collectionAPI'
 import CollectionCard from '../components/CollectionCard';
 import { PlusOutlined } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
 
 function Profile() {
   const [collections, setCollections] = useState([]);
@@ -11,6 +13,7 @@ function Profile() {
   const [editCollectionModal, setEditCollectionModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCollection, setSelectedCollection] = useState();
+  const { t } = useTranslation();
 
   useEffect(() => {
     getCollections();
@@ -42,7 +45,7 @@ function Profile() {
         icon={<PlusOutlined />}
         style={{float: 'right', marginRight: '1%'}}
       >
-        Create
+        {t('profile.create')}
       </Button>
 
         <div display='flex' align='center' style={{ minHeight: '100vh', marginTop: '5%' }}>
@@ -62,14 +65,14 @@ function Profile() {
         </div>
         
         {createCollectionModal && (
-          <CollectionModalForm title='Create collection' 
-                               okText='Create' 
+          <CollectionModalForm title={t('collection.create_collection')} 
+                               okText={t('profile.create')} 
                                onCloseModal={() => {setCreateCollectionModal(false); getCollections()}} />
         )}
 
         {editCollectionModal && (
-          <CollectionModalForm title='Edit collection' 
-                               okText='Edit'
+          <CollectionModalForm title={t('collection.edit_collection')} 
+                               okText={t('collection.edit')}
                                collection={selectedCollection}
                                onCloseModal={() => {setEditCollectionModal(false); getCollections()}} />
         )}
