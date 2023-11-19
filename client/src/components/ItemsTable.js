@@ -3,8 +3,10 @@ import { PageHeader, Descriptions, Table, Tag, Space, Button, Modal } from 'antd
 import { getItems, deleteItem } from '../http/itemAPI'
 import ItemModalForm from './ItemModalForm';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 
 const ItemsTable = (collection) => {
+    const { t } = useTranslation();
     const [items, setItems] = useState([]);
     const [createItemModal, setCreateItemModal] = useState(false);
     const [editItemModal, setEditItemModal] = useState(false);
@@ -57,9 +59,9 @@ const ItemsTable = (collection) => {
     const columns = [
         { title: 'ID', dataIndex: 'id', key: 'id', 
             sorter: (a, b) => fieldSorter(a.id, b.id, 'integer') },
-        { title: 'Title', dataIndex: 'title', key: 'title', 
+        { title: t('item.title'), dataIndex: 'title', key: 'title', 
             sorter: (a, b) => fieldSorter(a.title, b.title, 'string') },
-        { title: 'Tags', 
+        { title: t('item.tags'), 
           dataIndex: 'tags', 
           key: 'tags',
           filters: tagFilters, 
@@ -74,7 +76,7 @@ const ItemsTable = (collection) => {
         },
         ...customFieldsColumns,
         {
-            title: 'Actions',
+            title: t('item.actions'),
             key: 'action',
             render: (text, record) => (
                 <Space size="middle">
@@ -101,7 +103,7 @@ const ItemsTable = (collection) => {
 
     return (
         <div style={{ padding: '2%' }}>
-            <Button onClick={() => setCreateItemModal(true)}>Create new item</Button>
+            <Button onClick={() => setCreateItemModal(true)}>{t('item.create_btn')}</Button>
             <div style={{ padding: '1%' }}>
                 <Table dataSource={items} 
                     columns={columns}
@@ -114,15 +116,15 @@ const ItemsTable = (collection) => {
             </div>
 
             {createItemModal && (
-                <ItemModalForm  title='Create item' 
-                                okText='Create' 
+                <ItemModalForm  title={t('item.create_item')} 
+                                okText={t('general.create')} 
                                 customFields={collection.collection.collection_fields}
                                 onCloseModal={() => {setCreateItemModal(false); getItemsInfo()}} />
             )}
 
             {editItemModal && (
-                <ItemModalForm  title='Edit item' 
-                                okText='Edit' 
+                <ItemModalForm  title={t('item.edit_item')} 
+                                okText={t('general.edit')} 
                                 customFields={collection.collection.collection_fields}
                                 item={selectedItem}
                                 onCloseModal={() => {setEditItemModal(false); getItemsInfo()}} />

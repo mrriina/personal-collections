@@ -7,11 +7,13 @@ import { UploadOutlined } from '@ant-design/icons';
 import CollectionCustomFields from './CollectionCustomFields';
 import './Modal.css'
 import FormItem from 'antd/es/form/FormItem';
+import { useTranslation } from 'react-i18next';
 
 
 const { Option } = Select;
 
 function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
+    const { t } = useTranslation();
     const [isModalVisible, setIsModalVisible] = useState(true);
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
@@ -47,8 +49,6 @@ function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
                 }
             });
             
-            console.log('customFieldsValues=', customFieldsValues);
-            console.log('values=', values);
             const resp = await updateItemById(item.id, values.title, values.tags, customFieldsValues)
             setIsLoading(false);
             closeModal();
@@ -85,18 +85,18 @@ function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
             visible={isModalVisible}
             title={title}
             okText={okText}
-            cancelText="Cancel"
+            cancelText={t('general.cancel')}
             onCancel={closeModal}
             onOk={item ? handleEdit : handleCreate}
         >
             <Spin spinning={isLoading}>
                 <Form form={form} layout="vertical">
-                    <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Enter Title' }]}>
+                    <Form.Item name="title" label={t('item.title')} rules={[{ required: true, message: t('general.rule_required') }]}>
                         <Input />
                     </Form.Item>
                     <Form.Item  name="tags" 
-                                label="Tags" 
-                                rules={[{ required: true, message: 'Enter Tags' }]}>
+                                label={t('item.tags')} 
+                                rules={[{ required: true, message: t('general.rule_required') }]}>
                         <Input onChange={(e) => {
                                     const value = e.target.value;
                                     const formattedValue = value
@@ -120,7 +120,7 @@ function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
                         :
                             <Form.Item  name={field.field_name} 
                                         label={field.field_name.charAt(0).toUpperCase() + field.field_name.slice(1)} 
-                                        rules={field.isRequired ? [{required: true, message: `Enter ${field.field_name}`}] : null}
+                                        rules={field.isRequired ? [{required: true, message: t('general.rule_required')}] : null}
                                         >
                                 {field.field_type === 'integer' ? <InputNumber /> : <Input type={field.field_type} />}
                             </Form.Item>

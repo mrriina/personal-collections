@@ -4,22 +4,25 @@ import { getCollections } from '../http/collectionAPI'
 import { getLatestItems } from '../http/itemAPI'
 import CollectionCard from '../components/CollectionCard';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 
 function Home() {
+  const { t } = useTranslation();
   const [collections, setCollections] = useState([]);
   const [latestItems, setLatestItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
 
   const columns = [
-    { title: 'Title', dataIndex: 'title', key: 'title',
+    { title: t('item.title'), dataIndex: 'title', key: 'title',
       render: (title, record) => (
         <Link to={`/item/${record.id}`}>
           {title}
         </Link>
       )
     },
-    { title: 'Collection', dataIndex: 'collection', key: 'collection',
+    { title: t('item.collection'), dataIndex: 'collection', key: 'collection',
         render: (collection) => {
           if (collection && collection.title) {
             return collection.title;
@@ -27,7 +30,7 @@ function Home() {
           return null;
         }
     },
-    { title: 'Author', dataIndex: 'collection', key: 'author',
+    { title: t('item.author'), dataIndex: 'collection', key: 'author',
         render: (collection) => {
           if (collection && collection.profile && collection.profile.name) {
             return collection.profile.name;

@@ -6,6 +6,13 @@
         "language": "RU"
     },
 
+    "general": {
+        "create": "Создать",
+        "edit": "Редактировать",
+        "cancel": "Отменить",
+        "rule_required": "Заполните поле!"
+    },
+
     "auth": {
         "register": "Зарегистрироваться",
         "log_in": "Войти",
@@ -58,6 +65,21 @@
         "field__name": "Название поля",
         "required": "Обязательное",
         "create_collection": "Создать коллекцию",
-        "edit_collection": "Редактировать коллекцию"
+        "edit_collection": "Редактировать коллекцию",
+        "not_found": "Коллекция не найдена"
+    },
+
+    "item": {
+        "title": "Название",
+        "tags": "Теги",
+        "actions": "Действия",
+        "collection": "Коллекция",
+        "create_btn": "Создать новый айтем",
+        "create_item": "Создать айтем",
+        "edit_item": "Редактировать айтем",
+        "add_comment": "Добавить комментарий",
+        "item_details": "Сведения айтема",
+        "author": "Автор"
+
     }
 }

@@ -223,13 +223,13 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
         >
             <Spin spinning={isLoading}>
                 <Form form={form} layout="vertical">
-                    <Form.Item name="title" label={t('collection.title')} rules={[{ required: true, message: 'Введите Title' }]}>
+                    <Form.Item name="title" label={t('collection.title')} rules={[{ required: true, message: t('general.rule_required') }]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item name="description" label={t('collection.description')} rules={[{ required: true, message: 'Введите Description' }]}>
+                    <Form.Item name="description" label={t('collection.description')} rules={[{ required: true, message: t('general.rule_required') }]}>
                         <SimpleMDE value={markdown} onChange={(value) => setMarkdown(value)} />
                     </Form.Item>
-                    <Form.Item name="theme" label={t('collection.theme')} rules={[{ required: true, message: 'Выберите Theme' }]}>
+                    <Form.Item name="theme" label={t('collection.theme')} rules={[{ required: true, message: t('general.rule_required') }]}>
                         <Select>
                             <Option value="Books">{t('collection.books')}</Option>
                             <Option value="Coins">{t('collection.coins')}</Option>

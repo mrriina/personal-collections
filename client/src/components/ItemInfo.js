@@ -1,9 +1,11 @@
 import React from 'react';
 import { Descriptions, Image, Space } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 
 function ItemInfo({ item }) {
-    console.log('item.=', item);
+    const { t } = useTranslation();
+
 
     const renderCustomFields = () => {
         const customFields = item.customFields || {};
@@ -16,13 +18,13 @@ function ItemInfo({ item }) {
 
     return (
         <div style={{ maxWidth: '500px', margin: 'auto' }}>
-            <h2>Item Details</h2>
+            <h2>{t('item.item_details')}</h2>
             <Descriptions bordered column={1}>
-                <Descriptions.Item label="Title">{item.title}</Descriptions.Item>
-                <Descriptions.Item label="Tags">{item.tags}</Descriptions.Item>
+                <Descriptions.Item label={t('item.title')}>{item.title}</Descriptions.Item>
+                <Descriptions.Item label={t('item.tags')}>{item.tags}</Descriptions.Item>
                 {renderCustomFields()}
 
-                <Descriptions.Item label="Collection">
+                <Descriptions.Item label={t('item.collection')}>
                     <a href={`/collection/${item.collection.id}`}>{item.collection.title}</a>
                 </Descriptions.Item>
             </Descriptions>

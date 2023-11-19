@@ -5,6 +5,13 @@
         "logout": "Log out",
         "language": "EN"
     },
+
+    "general": {
+        "create": "Create",
+        "edit": "Edit",
+        "cancel": "Cancel",
+        "rule_required": "Fill in the field!"
+    },
     
     "auth": {
         "register": "Register",
@@ -58,8 +65,21 @@
         "field__name": "Field Name",
         "required": "Required",
         "create_collection": "Create collection",
-        "edit_collection": "Edit collection"
+        "edit_collection": "Edit collection",
+        "not_found": "Collection not found"
+    },
 
+    "item": {
+        "title": "Title",
+        "tags": "Tags",
+        "actions": "Actions",
+        "collection": "Collection",
+        "create_btn": "Create new item",
+        "create_item": "Create item",
+        "edit_item": "Edit item",
+        "add_comment": "Add Comment",
+        "item_details": "Item Details",
+        "author": "Author"
 
     }
 }

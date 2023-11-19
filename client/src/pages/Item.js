@@ -6,9 +6,11 @@ import ItemsTable from '../components/ItemsTable';
 import { Button, Spin, Row, Col, Input, List, Form, Card, Avatar } from 'antd';
 import ItemInfo from '../components/ItemInfo';
 import { getCommentsByItemId, createComment } from '../http/commentAPI';
+import { useTranslation } from 'react-i18next';
 
 function Item() {    
     const { id } = useParams();
+    const { t } = useTranslation();
     const [item, setItem] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [comments, setComments] = useState([]);
@@ -73,7 +75,7 @@ function Item() {
                                     <Input value={newComment} onChange={(e) => setNewComment(e.target.value)} />
                                 </Form.Item>
                                 <Form.Item>
-                                    <Button type="primary" htmlType="submit">Add Comment</Button>
+                                    <Button type="primary" htmlType="submit">{t('item.add_comment')}</Button>
                                 </Form.Item>
                             </Form>
                         </div>

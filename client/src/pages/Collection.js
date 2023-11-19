@@ -4,9 +4,11 @@ import { getCollectionById } from '../http/collectionAPI';
 import CollectionInfo from '../components/CollectionInfo';
 import ItemsTable from '../components/ItemsTable';
 import { Button, Spin, Row, Col } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 function Collection() {    
     const { id } = useParams();
+    const { t } = useTranslation();
     const [collection, setCollection] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -30,7 +32,7 @@ function Collection() {
                         <ItemsTable collection={collection} />
                     </>
                 ) : (
-                    <p>Коллекция не найдена</p>
+                    <p>{t('collection.not_found')}</p>
                 )}
             </Spin>
             
