@@ -21,7 +21,7 @@ export default function Login() {
 
 
     return (
-        <div style={{ background: "grey"}}>
+        <div>
             <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
                 <Col span={6}>
                     <Card title={<h2 style={{ textAlign: 'center', fontSize: '1.5rem' }}>{t('navbar.login')}</h2>} style={{ minWidth: 300 }}>

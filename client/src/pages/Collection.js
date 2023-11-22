@@ -24,7 +24,7 @@ function Collection() {
     }
 
     return (
-        <div style={{background: '#e3e1e5'}}>
+        <div>
             <Spin spinning={isLoading}>
                 {collection ? (
                     <>

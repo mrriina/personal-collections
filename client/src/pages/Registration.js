@@ -22,7 +22,7 @@ const Registration = () => {
   };
 
   return (
-    <div style={{ background: "grey"}}>
+    <div>
         <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
             <Col span={6}>
                 <Card title={<h2 style={{ textAlign: 'center', fontSize: '1.5rem' }}>{t('auth.register')}</h2>} style={{ minWidth: 300 }}>

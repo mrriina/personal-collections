@@ -7,6 +7,8 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
 
+import { useNavigate } from "react-router-dom";
+
 function Profile() {
   const [collections, setCollections] = useState([]);
   const [createCollectionModal, setCreateCollectionModal] = useState(false);
@@ -14,6 +16,7 @@ function Profile() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCollection, setSelectedCollection] = useState();
   const { t } = useTranslation();
+  let navigate = useNavigate();
 
   useEffect(() => {
     getCollections();
@@ -39,44 +42,46 @@ function Profile() {
 
 
   return (
-    <div style={{padding: '3% 5%', background: '#f5f5f5'}}>
-      <Button
-        onClick={() => setCreateCollectionModal(true)}
-        icon={<PlusOutlined />}
-        style={{float: 'right', marginRight: '1%'}}
-      >
-        {t('profile.create')}
-      </Button>
+    sessionStorage.getItem('userId') ? 
+      <div style={{padding: '3% 5%'}}>
+        <Button
+          onClick={() => setCreateCollectionModal(true)}
+          icon={<PlusOutlined />}
+          style={{float: 'right', marginRight: '1%'}}
+        >
+          {t('profile.create')}
+        </Button>
 
-        <div display='flex' align='center' style={{ minHeight: '100vh', marginTop: '5%' }}>
-          <Spin spinning={isLoading} > 
-            {collections.map((collection) => (
-              <CollectionCard
-                key={collection.id}
-                id={collection.id}
-                title={collection.title}
-                theme={collection.theme}
-                image={collection.image_url}
-                handleEditCollection={handleEditCollection}
-                handleDeleteCollection={handleDeleteCollection}
-              />
-            ))}
-          </Spin>
-        </div>
-        
-        {createCollectionModal && (
-          <CollectionModalForm title={t('collection.create_collection')} 
-                               okText={t('profile.create')} 
-                               onCloseModal={() => {setCreateCollectionModal(false); getCollections()}} />
-        )}
+          <div display='flex' align='center' style={{ minHeight: '100vh', marginTop: '5%' }}>
+            <Spin spinning={isLoading} > 
+              {collections.map((collection) => (
+                <CollectionCard
+                  key={collection.id}
+                  id={collection.id}
+                  title={collection.title}
+                  theme={collection.theme}
+                  image={collection.image_url}
+                  handleEditCollection={handleEditCollection}
+                  handleDeleteCollection={handleDeleteCollection}
+                />
+              ))}
+            </Spin>
+          </div>
+          
+          {createCollectionModal && (
+            <CollectionModalForm title={t('collection.create_collection')} 
+                                okText={t('profile.create')} 
+                                onCloseModal={() => {setCreateCollectionModal(false); getCollections()}} />
+          )}
 
-        {editCollectionModal && (
-          <CollectionModalForm title={t('collection.edit_collection')} 
-                               okText={t('collection.edit')}
-                               collection={selectedCollection}
-                               onCloseModal={() => {setEditCollectionModal(false); getCollections()}} />
-        )}
-    </div>
+          {editCollectionModal && (
+            <CollectionModalForm title={t('collection.edit_collection')} 
+                                okText={t('collection.edit')}
+                                collection={selectedCollection}
+                                onCloseModal={() => {setEditCollectionModal(false); getCollections()}} />
+          )}
+      </div>
+    : navigate("/login") 
   );
 }
 

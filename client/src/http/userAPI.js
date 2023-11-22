@@ -14,3 +14,12 @@ export const login = async (email, password) => {
     sessionStorage.setItem('userId', data.user.id)
     return data;
 }
+
+export const getUser = async (id) => {
+    try {
+        const {data} = await $host.get(`api/user/getuser/${id}`)
+        return data;
+    } catch (e) {
+        console.log(`Server error: ${e.message}`);
+    }
+}

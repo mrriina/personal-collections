@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import { Layout, Button, Switch } from 'antd';
+import { Layout, Button, Switch, Dropdown, Menu } from 'antd';
 import {
   BulbOutlined,
+  UserOutlined,
   LoginOutlined,
   UserAddOutlined,
 } from '@ant-design/icons';
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
+import { getUser } from '../http/userAPI'
 
 const { Header } = Layout;
 
@@ -15,12 +17,19 @@ const { Header } = Layout;
 const Navbar = () => {
     let navigate = useNavigate();
     const { t } = useTranslation();
-    const [userAuth, setUserAuth] = useState(false);
+    const [user, setUser] = useState();
 
     useEffect(() => {
-        console.log('t(navbar.language)===', t('navbar.language'));
-        sessionStorage.getItem('userId') ? setUserAuth(true) : setUserAuth(false);
-    }, [])
+        if(sessionStorage.getItem('userId')) {
+            getUserInfo(); 
+        }
+    }, [sessionStorage.getItem('userId')])
+
+
+    const getUserInfo = async () => {
+        const data = await getUser(sessionStorage.getItem('userId'))
+        setUser(data.profile);
+    }
 
 
     const changeTheme = (checked) => {
@@ -36,11 +45,23 @@ const Navbar = () => {
 
 
     const logOut = () => {
-        setUserAuth(false)
+        setUser(null);
         sessionStorage.removeItem("tokenUser")
         sessionStorage.removeItem("userId")
         navigate("/")
     }
+
+
+    const menu = (
+        <Menu>
+            <Menu.Item key="profile" onClick={() => {navigate("/profile")}}>
+                {t('navbar.profile')}
+            </Menu.Item>
+            <Menu.Item key="logout" onClick={logOut}>
+                {t('navbar.logout')}
+            </Menu.Item>
+        </Menu>
+      );
 
 
 
@@ -51,27 +72,30 @@ const Navbar = () => {
                     Collections
                 </Link>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    {userAuth ? 
-                        <Button icon={<UserAddOutlined />} onClick={() => logOut()}>
-                            {t('navbar.logout')}
+
+                    {user ? (
+                        <Dropdown overlay={menu} placement="bottomLeft">
+                        <Button icon={<UserOutlined />} style={{ marginRight: '20px' }}>
+                            {user.name}
                         </Button>
-                    :
+                        </Dropdown>
+                    ) : (
                         <>
-                        <Button icon={<UserAddOutlined />} onClick={() => navigate("/registration")}>
+                        <Button icon={<UserAddOutlined />} onClick={() => navigate('/registration')}>
                             {t('navbar.signup')}
                         </Button>
-                        <Button icon={<LoginOutlined />} onClick={() => navigate("/login")} style={{ marginLeft: '20px' }}>
+                        <Button icon={<LoginOutlined />} onClick={() => navigate('/login')} style={{ marginLeft: '20px' }}>
                             {t('navbar.login')}
                         </Button>
                         </>
-                    }
-                    <Switch
+                    )}
+                    {/* <Switch
                         checkedChildren={<BulbOutlined />}
                         unCheckedChildren={<BulbOutlined />}
                         defaultChecked
                         onChange={changeTheme}
                         style={{ marginLeft: '20px' }}
-                    />
+                    /> */}
                     <Switch
                         checkedChildren={t('navbar.language')}
                         unCheckedChildren={t('navbar.language')}

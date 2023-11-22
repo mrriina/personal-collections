@@ -68,6 +68,20 @@ class UserController {
         }
     }
 
+
+    async getUserById(req, res) {
+        try {
+            const _id = req.params.id;
+            const profile = await Profile.findOne({where: {id: _id}})
+            if(!profile) {
+                return res.status(500).json({message: 'Profile with this id not found'})
+            }
+            return res.json({profile})
+        } catch (e) {
+            return res.status(500).json({message: 'Server error', error: e.message })
+        }
+    }
+
     // async check(req, res) {
     //     const {token} = req.body
     //     const user = await User.findOne({where: {email}})

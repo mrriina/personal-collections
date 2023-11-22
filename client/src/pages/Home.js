@@ -62,7 +62,7 @@ function Home() {
 
 
   return (
-    <div style={{padding: '3% 5%', background: '#f5f5f5'}}>
+    <div style={{padding: '3% 5%'}}>
 
         <div display='flex' align='center' style={{ minHeight: '100vh', marginTop: '5%' }}>
           <Spin spinning={isLoading} > 

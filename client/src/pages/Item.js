@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getItemById } from '../http/itemAPI';
 import CollectionInfo from '../components/CollectionInfo';
 import ItemsTable from '../components/ItemsTable';
@@ -8,9 +8,11 @@ import ItemInfo from '../components/ItemInfo';
 import { getCommentsByItemId, createComment } from '../http/commentAPI';
 import { useTranslation } from 'react-i18next';
 
+
 function Item() {    
     const { id } = useParams();
     const { t } = useTranslation();
+    let navigate = useNavigate();
     const [item, setItem] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [comments, setComments] = useState([]);
@@ -36,6 +38,10 @@ function Item() {
     }
 
     const handleSubmitComment = async () => {
+        if(!sessionStorage.getItem('userId')) {
+            navigate("/login");
+            return;
+        }
         await createComment(newComment, id, sessionStorage.getItem('userId'));
         setNewComment('');
         getComments();
@@ -58,7 +64,7 @@ function Item() {
     }
 
     return (
-        <div style={{background: '#e3e1e5'}}>
+        <div>
             
             <Spin spinning={isLoading}>
                 {item ? (

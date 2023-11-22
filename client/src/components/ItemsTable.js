@@ -14,8 +14,10 @@ const ItemsTable = (collection) => {
 
 
     useEffect(() => {
-        getItemsInfo()
+        getItemsInfo();
     }, [])
+
+        
     
     const getItemsInfo = async () => {
         // setIsLoading(true);
@@ -75,7 +77,12 @@ const ItemsTable = (collection) => {
           },
         },
         ...customFieldsColumns,
-        {
+        
+    ];
+
+
+    if(sessionStorage.getItem('userId') && sessionStorage.getItem('userId') == collection.collection.profileId) {
+        columns.push({
             title: t('item.actions'),
             key: 'action',
             render: (text, record) => (
@@ -83,10 +90,9 @@ const ItemsTable = (collection) => {
                     <Button onClick={() => handleEditItem(record)} icon={<EditOutlined />} />
                     <Button onClick={() => handleDeleteItem(record.id)} icon={<DeleteOutlined />} danger />
                 </Space>
-            ),
-        },
-    ];
-
+            )
+        })
+    }
 
     
 
@@ -103,7 +109,9 @@ const ItemsTable = (collection) => {
 
     return (
         <div style={{ padding: '2%' }}>
-            <Button onClick={() => setCreateItemModal(true)}>{t('item.create_btn')}</Button>
+            {sessionStorage.getItem('userId') &&
+                <Button onClick={() => setCreateItemModal(true)}>{t('item.create_btn')}</Button>
+            }
             <div style={{ padding: '1%' }}>
                 <Table dataSource={items} 
                     columns={columns}
