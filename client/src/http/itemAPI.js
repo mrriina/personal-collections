@@ -1,6 +1,4 @@
-import axios from 'axios';
 import {$host} from './index';
-
 
 export async function createItem(title, tags, customFieldsValues, collectionId) {
     try {
@@ -10,7 +8,6 @@ export async function createItem(title, tags, customFieldsValues, collectionId) 
         console.log(`Server error: ${e.message}`);
     }
 }
-
 
 export async function getItems(collectionId) {
     try {
@@ -39,7 +36,6 @@ export async function getLatestItems() {
     }
 }
 
-
 export async function deleteItem(id) {
     try {
         const response = await $host.delete(`api/item/deleteItem/${id}`)
@@ -57,7 +53,6 @@ export async function deleteItemsByCollectionId(collectionId) {
         console.log(`Server error: ${e.message}`);
     }
 }
-
 
 export async function updateItemById(id, title, tags, customFieldsValues){
     try {

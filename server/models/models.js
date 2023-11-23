@@ -58,12 +58,6 @@ CollectionItem.belongsTo(Collection, {
     onDelete: 'CASCADE',
 });
 
-// Collection.hasMany(CollectionItem, { foreignKey: 'collection_id', as: 'collection_items' });
-// CollectionItem.belongsTo(Collection, { foreignKey: 'collection_id' });
-
-
-
-
 const Comment = sequelize.define('comment', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     content: { type: DataTypes.TEXT, allowNull: false },
@@ -84,7 +78,6 @@ Comment.belongsTo(Profile, {
     },
     onDelete: 'CASCADE',
 });
-
 
 
 module.exports = {

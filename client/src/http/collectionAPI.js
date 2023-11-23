@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {$host} from './index';
 
-
 export async function uploadCollectionFile(data, cloudName) {
     try {
         const  response  = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, data);
@@ -11,7 +10,6 @@ export async function uploadCollectionFile(data, cloudName) {
     }
 }
 
-
 export async function createCollection(title, description, theme, image_url, owner, customFields) {
     try {
         const {data} = await $host.post('api/collection/create', {title, description, theme, image_url, owner, customFields})
@@ -20,7 +18,6 @@ export async function createCollection(title, description, theme, image_url, own
         console.log(`Server error: ${e.message}`);
     }
 }
-
 
 export async function getCollectionById(id) {
     try {
@@ -49,7 +46,6 @@ export async function getCollectionsByProfileId(profileId) {
         console.log(`Server error: ${e.message}`);
     }
 }
-
 
 export async function deleteCollection(id) {
     try {

@@ -1,13 +1,10 @@
 const {Comment, Profile} = require('../models/models')
 
 class CommentController {
-
     async createComment(req, res) {
         try {
             const {content, collectionItemId, profileId} = req.body
-            
             const comment = await Comment.create({content, collectionItemId, profileId})
-            
             return res.json({comment: {
                                 id: comment.id,
                                 content: comment.content,
@@ -20,11 +17,9 @@ class CommentController {
         }
     }
 
-
     async getCommentsByItemId(req, res) {
         try {
             const _itemId = req.params.itemId
-
             const comments = await Comment.findAll({
                 where: { collectionItemId: _itemId },
                 include: {

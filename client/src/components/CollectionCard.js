@@ -6,9 +6,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const CollectionCard = ({ id, title, theme, image, handleEditCollection, handleDeleteCollection }) => {
     const { t } = useTranslation();
-    // const defaultImageUrl = 'https://res.cloudinary.com/dllivv10p/image/upload/v1699177267/yzrkgw8kkl5tttonnun3.jpg';
     const defaultImageUrl = process.env.DEFAULT_IMAGE_URL;
-    console.log('process.env.DEFAULT_IMAGE_UR=', process.env.DEFAULT_IMAGE_UR);
 
     return (
         <Card

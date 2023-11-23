@@ -1,6 +1,4 @@
-import axios from 'axios';
 import {$host} from './index';
-
 
 export async function createComment(content, collectionItemId, profileId) {
     try {
@@ -10,7 +8,6 @@ export async function createComment(content, collectionItemId, profileId) {
         console.log(`Server error: ${e.message}`);
     }
 }
-
 
 export async function getCommentsByItemId(itemId) {
     try {

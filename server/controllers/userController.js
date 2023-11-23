@@ -1,10 +1,8 @@
-const ApiError = require('../errors/ApiError')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {Profile} = require('../models/models')
 
-const SECRET_KEY='secret_key123'
-// const SECRET_KEY=process.env.SECRET_KEY
+const SECRET_KEY=process.env.SECRET_KEY
 
 const generateJwt = (id, email) => {
     return jwt.sign({id, email},
@@ -51,8 +49,6 @@ class UserController {
                 return res.status(400).json({message: `Invalid password specified`})
             }
             
-            // await User.update({signIn: Date.now()}, {where: {email}})
-    
             const token = generateJwt(user.id, user.email)
             return res.json({token,
                             user: {
@@ -68,7 +64,6 @@ class UserController {
         }
     }
 
-
     async getUserById(req, res) {
         try {
             const _id = req.params.id;
@@ -81,12 +76,6 @@ class UserController {
             return res.status(500).json({message: 'Server error', error: e.message })
         }
     }
-
-    // async check(req, res) {
-    //     const {token} = req.body
-    //     const user = await User.findOne({where: {email}})
-    //     return res.json({token})
-    // }
 }
 
 module.exports = new UserController()
