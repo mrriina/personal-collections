@@ -4,6 +4,7 @@ import { getItems, deleteItem } from '../http/itemAPI'
 import ItemModalForm from './ItemModalForm';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 const ItemsTable = (collection) => {
     const { t } = useTranslation();
@@ -32,12 +33,20 @@ const ItemsTable = (collection) => {
         dataIndex: ['customFields', field.field_name],
         key: field.field_name,
         sorter: (a, b) => fieldSorter(a.customFields[field.field_name], b.customFields[field.field_name], field.field_type),
+        render: (value) => {
+            if (field.field_type === 'checkbox') {
+                return value ? '+' : '-';
+            }
+            return value;
+        },
     })) || [];
 
     const fieldSorter = (valueA, valueB, fieldType) => {
         switch (fieldType) {
             case 'checkbox':
-                return valueA - valueB;
+                if (valueA && !valueB) return -1;
+                if (!valueA && valueB) return 1;
+                return 0;
             case 'string':
                 return valueA.localeCompare(valueB);
             case 'text':
@@ -61,7 +70,12 @@ const ItemsTable = (collection) => {
     const columns = [
         { title: 'ID', dataIndex: 'id', key: 'id', 
             sorter: (a, b) => fieldSorter(a.id, b.id, 'integer') },
-        { title: t('item.title'), dataIndex: 'title', key: 'title', 
+        { title: t('item.title'), dataIndex: 'title', key: 'title',
+            render: (title, record) => (
+                <Link to={`/item/${record.id}`}>
+                    {title}
+                </Link>
+            ), 
             sorter: (a, b) => fieldSorter(a.title, b.title, 'string') },
         { title: t('item.tags'), 
           dataIndex: 'tags', 
@@ -81,7 +95,8 @@ const ItemsTable = (collection) => {
     ];
 
 
-    if(sessionStorage.getItem('userId') && sessionStorage.getItem('userId') == collection.collection.profileId) {
+    const hasPermission = sessionStorage.getItem('userId') && sessionStorage.getItem('userId') == collection.collection.profileId;
+    if(hasPermission) {
         columns.push({
             title: t('item.actions'),
             key: 'action',
@@ -109,10 +124,10 @@ const ItemsTable = (collection) => {
 
     return (
         <div style={{ padding: '2%' }}>
-            {sessionStorage.getItem('userId') &&
+            {hasPermission &&
                 <Button onClick={() => setCreateItemModal(true)}>{t('item.create_btn')}</Button>
             }
-            <div style={{ padding: '1%' }}>
+            <div style={{ paddingTop: '1%' }}>
                 <Table dataSource={items} 
                     columns={columns}
                     onChange={onTableChange}

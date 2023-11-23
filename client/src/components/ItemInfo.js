@@ -1,5 +1,5 @@
 import React from 'react';
-import { Descriptions, Image, Space } from 'antd';
+import { Descriptions, Image, Space, Checkbox } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 
@@ -10,9 +10,14 @@ function ItemInfo({ item }) {
     const renderCustomFields = () => {
         const customFields = item.customFields || {};
         return Object.keys(customFields).map((key) => (
-          <Descriptions.Item key={key} label={key}>
-            {customFields[key]}
-          </Descriptions.Item>
+          typeof customFields[key] === 'boolean' ?
+              <Descriptions.Item key={key} label={key}>
+                <Checkbox checked={customFields[key]} />
+              </Descriptions.Item>
+          :
+            <Descriptions.Item key={key} label={key}>
+              {customFields[key]}
+            </Descriptions.Item>
         ));
       };
 

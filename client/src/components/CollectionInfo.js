@@ -17,28 +17,24 @@ function CollectionInfo({ collection }) {
             preview={false}
             style={{ borderRadius: 10 }}
           />
-          <Descriptions title={collection.title} column={1}>
-            <Descriptions.Item label={t('collection.description')}>
-              {collection.description}
-            </Descriptions.Item>
-            <Descriptions.Item label={t('collection.theme')}>
-              {collection.theme}
-            </Descriptions.Item>
-            <Descriptions.Item label={t('collection.profile')}>
-              {collection.profileId}
-            </Descriptions.Item>
-            {collection.collection_fields.length > 0 && (
-              <Descriptions.Item label={t('collection.additional_fields')}>
-                <ul>
-                  {collection.collection_fields.map((field) => (
-                    <li key={field.id}>
-                      {field.field_name}
-                    </li>
-                  ))}
-                </ul>
-              </Descriptions.Item>
-            )}
-          </Descriptions>
+          <div style={{ marginLeft: '20%', marginTop: '2%' }}>
+                <h2 style={{ fontSize: '18px', fontWeight: 'bold' }}>{collection.title}</h2>
+                <div style={{ fontSize: '16px' }}>
+                    <p><strong>{t('collection.description')}:</strong> {collection.description}</p>
+                    <p><strong>{t('collection.theme')}:</strong> {collection.theme}</p>
+                    <p><strong>{t('collection.profile')}:</strong> {collection.profileId}</p>
+                    {collection.collection_fields.length > 0 && (
+                        <div>
+                            <strong>{t('collection.additional_fields')}:</strong>
+                            <ul>
+                                {collection.collection_fields.map((field) => (
+                                    <li key={field.id}>{field.field_name}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            </div>
         </Space>
       );
 }

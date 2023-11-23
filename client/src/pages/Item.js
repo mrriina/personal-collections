@@ -17,6 +17,7 @@ function Item() {
     const [isLoading, setIsLoading] = useState(true);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
+    const [form] = Form.useForm();
     
     useEffect(() => {
         getItem();
@@ -43,29 +44,34 @@ function Item() {
             return;
         }
         await createComment(newComment, id, sessionStorage.getItem('userId'));
-        setNewComment('');
+        
         getComments();
+        form.resetFields(['comment']); 
     }
+
 
     const renderCommentCard = (comment) => {
         return (
-            <Card key={comment.id} style={{ margin: '10px 0', width: '70%', borderRadius: '8px' }}>
+            <Card
+                key={comment.id}
+                style={{ marginBottom: '10px', border: '1px solid #e8e8e8', borderRadius: '8px' }}
+                bodyStyle={{ padding: '5px', margin: '0 2%' }}
+            >
                 <Row gutter={16} align="middle">
-                    <Col>
-                        <Avatar size={36} />
-                    </Col>
-                    <Col flex="auto">
-                        <p>{comment.profile.name}</p>
-                        <p>{comment.content}</p>
-                    </Col>
-                </Row>
+                <Col flex="none">
+                    <Avatar size={36} />
+                </Col>
+                <Col flex="auto" style={{ marginLeft: '10px', display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ marginBottom: '5px', fontWeight: 'bold' }}>{comment.profile.name}</div>
+                    <div style={{ wordWrap: 'break-word' }}>{comment.content}</div>
+                </Col>
+            </Row>
             </Card>
         );
     }
 
     return (
         <div>
-            
             <Spin spinning={isLoading}>
                 {item ? (
                     <>
@@ -76,14 +82,29 @@ function Item() {
                                 renderItem={(comment) => renderCommentCard(comment)}
                             />
                         
-                            <Form onFinish={handleSubmitComment}>
-                                <Form.Item name="comment">
-                                    <Input value={newComment} onChange={(e) => setNewComment(e.target.value)} />
-                                </Form.Item>
-                                <Form.Item>
-                                    <Button type="primary" htmlType="submit">{t('item.add_comment')}</Button>
-                                </Form.Item>
-                            </Form>
+                            <Card
+                                style={{
+                                    border: '1px solid #e8e8e8',
+                                    borderRadius: '8px',
+                                    padding: '12px',
+                                    marginTop: '20px'
+                                }}
+                            >
+                                <Form form={form} onFinish={handleSubmitComment} layout="inline">
+                                    <Form.Item name="comment" style={{ flex: 1 }}>
+                                        <Input
+                                            onChange={(e) => setNewComment(e.target.value)}
+                                            placeholder={t('item.add_comment') +'...'}
+                                            style={{ width: '100%' }}
+                                        />
+                                    </Form.Item>
+                                    <Form.Item>
+                                        <Button type="primary" htmlType="submit">
+                                            {t('item.add_comment')}
+                                        </Button>
+                                    </Form.Item>
+                                </Form>
+                            </Card>
                         </div>
                     </>
                 ) : (

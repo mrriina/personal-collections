@@ -10,8 +10,8 @@ const CollectionCard = ({ id, title, theme, image, handleEditCollection, handleD
 
     return (
         <Card
-            style={{width: '250px', margin: '10px', display: 'inline-block'}}
-            cover={<img alt={title} src={image || defaultImageUrl} style={{width: '100%', height: '150px', objectFit: 'cover'}} />}
+            style={{width: '20%', margin: '10px', display: 'inline-block'}}
+            cover={<img alt={title} src={image || defaultImageUrl} style={{width: '240px', height: '150px', objectFit: 'cover', marginTop: '20px'}} />}
             actions={[
                 <Button onClick={() => handleEditCollection(id)} icon={<EditOutlined />} type="primary" ghost>
                     {t('collection.edit')}

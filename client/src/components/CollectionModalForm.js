@@ -220,6 +220,7 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
             cancelText={t('collection.cancel')}
             onCancel={closeModal}
             onOk={collection ? handleEdit : handleCreate}
+            bodyStyle={{ maxHeight: '60vh', overflowY: 'auto' }}
         >
             <Spin spinning={isLoading}>
                 <Form form={form} layout="vertical">

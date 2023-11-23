@@ -22,6 +22,7 @@ function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
 
     useEffect(() => {
         if(item) {
+            console.log('item=', item);
             const fieldValues = { title: item.title, tags: item.tags };
             customFields.map((field) => {
                 fieldValues[field.field_name] = item.customFields[field.field_name];
@@ -71,6 +72,8 @@ function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
                 }
             });
 
+            console.log('customFieldsValues=', customFieldsValues);
+
             await createItem(values.title, values.tags, customFieldsValues, id)
             setIsLoading(false);
             closeModal();
@@ -88,6 +91,7 @@ function ItemModalForm({ title, okText, customFields, item, onCloseModal }) {
             cancelText={t('general.cancel')}
             onCancel={closeModal}
             onOk={item ? handleEdit : handleCreate}
+            bodyStyle={{ maxHeight: '60vh', overflowY: 'auto' }}
         >
             <Spin spinning={isLoading}>
                 <Form form={form} layout="vertical">
