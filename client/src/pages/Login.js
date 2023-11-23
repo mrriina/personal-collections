@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import { Button, Card, Form, Input, Row, Col, message } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import DotLoader from "react-spinners/DotLoader";
 import { login } from '../http/userAPI';
-import { useTranslation } from 'react-i18next';
 
 export default function Login() {
     const { t } = useTranslation();
@@ -18,7 +17,6 @@ export default function Login() {
             message.error(t('auth.user_not_found'))
         }
     };
-
 
     return (
         <div>

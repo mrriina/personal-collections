@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getItemById } from '../http/itemAPI';
-import CollectionInfo from '../components/CollectionInfo';
-import ItemsTable from '../components/ItemsTable';
+import { useTranslation } from 'react-i18next';
 import { Button, Spin, Row, Col, Input, List, Form, Card, Avatar } from 'antd';
 import ItemInfo from '../components/ItemInfo';
 import { getCommentsByItemId, createComment } from '../http/commentAPI';
-import { useTranslation } from 'react-i18next';
-
+import { getItemById } from '../http/itemAPI';
 
 function Item() {    
     const { id } = useParams();
@@ -44,11 +41,9 @@ function Item() {
             return;
         }
         await createComment(newComment, id, sessionStorage.getItem('userId'));
-        
         getComments();
         form.resetFields(['comment']); 
     }
-
 
     const renderCommentCard = (comment) => {
         return (
@@ -58,14 +53,14 @@ function Item() {
                 bodyStyle={{ padding: '5px', margin: '0 2%' }}
             >
                 <Row gutter={16} align="middle">
-                <Col flex="none">
-                    <Avatar size={36} />
-                </Col>
-                <Col flex="auto" style={{ marginLeft: '10px', display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ marginBottom: '5px', fontWeight: 'bold' }}>{comment.profile.name}</div>
-                    <div style={{ wordWrap: 'break-word' }}>{comment.content}</div>
-                </Col>
-            </Row>
+                    <Col flex="none">
+                        <Avatar size={36} />
+                    </Col>
+                    <Col flex="auto" style={{ marginLeft: '10px', display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ marginBottom: '5px', fontWeight: 'bold' }}>{comment.profile.name}</div>
+                        <div style={{ wordWrap: 'break-word' }}>{comment.content}</div>
+                    </Col>
+                </Row>
             </Card>
         );
     }
@@ -81,7 +76,6 @@ function Item() {
                                 dataSource={comments}
                                 renderItem={(comment) => renderCommentCard(comment)}
                             />
-                        
                             <Card
                                 style={{
                                     border: '1px solid #e8e8e8',
@@ -108,7 +102,7 @@ function Item() {
                         </div>
                     </>
                 ) : (
-                    <p>Item not found</p>
+                    <p>{t('item.not_found')}</p>
                 )}
             </Spin>
         </div>

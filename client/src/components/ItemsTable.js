@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { PageHeader, Descriptions, Table, Tag, Space, Button, Modal } from 'antd';
-import { getItems, deleteItem } from '../http/itemAPI'
-import ItemModalForm from './ItemModalForm';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { Table, Tag, Space, Button } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { getItems, deleteItem } from '../http/itemAPI'
+import ItemModalForm from './ItemModalForm';
 
 const ItemsTable = (collection) => {
     const { t } = useTranslation();
@@ -13,21 +13,15 @@ const ItemsTable = (collection) => {
     const [editItemModal, setEditItemModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState();
 
-
     useEffect(() => {
         getItemsInfo();
     }, [])
-
         
-    
     const getItemsInfo = async () => {
-        // setIsLoading(true);
         const data = await getItems(collection.collection.id);
         setItems(data.items);
-        // setIsLoading(false);
     }
 
-    
     const customFieldsColumns = collection.collection.collection_fields.map((field) => ({
         title: field.field_name.charAt(0).toUpperCase() + field.field_name.slice(1),
         dataIndex: ['customFields', field.field_name],
@@ -62,7 +56,7 @@ const ItemsTable = (collection) => {
 
     const onTableChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
-      };
+    };
 
     const uniqueTags = Array.from(new Set(items.flatMap(item => item.tags.split(' '))));
     const tagFilters = uniqueTags.map(tag => ({ text: tag, value: tag }));
@@ -90,10 +84,8 @@ const ItemsTable = (collection) => {
             return tagArray.includes(value);
           },
         },
-        ...customFieldsColumns,
-        
+        ...customFieldsColumns, 
     ];
-
 
     const hasPermission = sessionStorage.getItem('userId') && sessionStorage.getItem('userId') == collection.collection.profileId;
     if(hasPermission) {
@@ -108,9 +100,6 @@ const ItemsTable = (collection) => {
             )
         })
     }
-
-    
-
 
     const handleEditItem = (item) => {
         setSelectedItem(item)

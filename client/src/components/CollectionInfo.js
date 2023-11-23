@@ -1,7 +1,6 @@
 import React from 'react';
-import { Descriptions, Image, Space } from 'antd';
 import { useTranslation } from 'react-i18next';
-
+import { Image, Space } from 'antd';
 
 function CollectionInfo({ collection }) {
     const { t } = useTranslation();
@@ -36,7 +35,7 @@ function CollectionInfo({ collection }) {
                 </div>
             </div>
         </Space>
-      );
+    );
 }
 
 export default CollectionInfo;

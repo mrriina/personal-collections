@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Spin, Row, Col } from 'antd';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
+import { Button, Spin } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import CollectionModalForm from '../components/CollectionModalForm';
 import { getCollectionsByProfileId, deleteCollection } from '../http/collectionAPI'
 import CollectionCard from '../components/CollectionCard';
-import { PlusOutlined } from '@ant-design/icons';
-import { useTranslation } from 'react-i18next';
-import i18n from '../i18n';
-
-import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const [collections, setCollections] = useState([]);
@@ -32,14 +30,12 @@ function Profile() {
   const handleEditCollection = async (id) => {
     setSelectedCollection(collections.find(collection => collection.id === id));
     setEditCollectionModal(true);
-    
   };
 
   const handleDeleteCollection = async (id) => {
     await deleteCollection(id);
     getCollections();
   };
-
 
   return (
     sessionStorage.getItem('userId') ? 
@@ -51,7 +47,6 @@ function Profile() {
         >
           {t('profile.create')}
         </Button>
-
           <div display='flex' align='center' style={{ minHeight: '100vh', marginTop: '5%' }}>
             <Spin spinning={isLoading} > 
               {collections.map((collection) => (

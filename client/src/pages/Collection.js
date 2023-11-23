@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Spin } from 'antd';
 import { getCollectionById } from '../http/collectionAPI';
 import CollectionInfo from '../components/CollectionInfo';
 import ItemsTable from '../components/ItemsTable';
-import { Button, Spin, Row, Col } from 'antd';
-import { useTranslation } from 'react-i18next';
 
 function Collection() {    
     const { id } = useParams();
@@ -35,7 +35,6 @@ function Collection() {
                     <p>{t('collection.not_found')}</p>
                 )}
             </Spin>
-            
         </div>
     );
 }

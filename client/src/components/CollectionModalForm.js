@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import SimpleMDE from 'react-simplemde-editor';
-import 'easymde/dist/easymde.min.css';
-import { Button, Modal, Form, Input, Select, Upload, Spin, Row } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { useDropzone } from 'react-dropzone';
+import { Button, Modal, Form, Input, Select, Spin, Row } from 'antd';
 import { uploadCollectionFile, createCollection, updateCollectionById } from '../http/collectionAPI';
 import { deleteItemsByCollectionId } from '../http/itemAPI'
-import { UploadOutlined } from '@ant-design/icons';
 import CollectionCustomFields from './CollectionCustomFields';
+import SimpleMDE from 'react-simplemde-editor';
+import 'easymde/dist/easymde.min.css';
 import './Modal.css'
-import FormItem from 'antd/es/form/FormItem';
-import { useTranslation } from 'react-i18next';
-
 
 const { Option } = Select;
 
@@ -23,20 +20,15 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
     const [isUploading, setIsUploading] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [hasRequiredChanged, setHasRequiredChanged] = useState(false);
-
     const [customFields, setCustomFields] = useState([]);
-
     const [initialCustomFields, setInitialCustomFields] = useState([]);
-
     const [markdown, setMarkdown] = React.useState('');
 
-    // const CLOUDINARY_UPLOAD_PRESET = process.env.CLOUDINARY_UPLOAD_PRESET;
-	// const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
-    // console.log('process.env.CLOUDINARY_UPLOAD_PRESET==', CLOUDINARY_UPLOAD_PRESET);
-    const CLOUDINARY_UPLOAD_PRESET = 'ml_default';
-	const CLOUDINARY_CLOUD_NAME = 'dllivv10p';
-
-
+    const CLOUDINARY_UPLOAD_PRESET = process.env.CLOUDINARY_UPLOAD_PRESET;
+	const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
+    console.log('process.env.CLOUDINARY_UPLOAD_PRESET==', CLOUDINARY_UPLOAD_PRESET);
+    // const CLOUDINARY_UPLOAD_PRESET = 'ml_default';
+	// const CLOUDINARY_CLOUD_NAME = 'dllivv10p';
 
     const fieldsOptions = [
         { value: 'integer', label: t('collection.number') },
@@ -46,17 +38,13 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
         { value: 'date', label: t('collection.date') },
     ];
 
-
     useEffect(() => {
         if(collection) {
             const fieldValues = { title: collection.title, description: collection.description, theme: collection.theme };
-            
             form.setFieldsValue(fieldValues);
-
             if (collection.image_url) {
                 setImageUrl(collection.image_url);
             }
-
             if (collection.collection_fields && collection.collection_fields.length > 0) {
                 const customFieldsData = collection.collection_fields.map((field) => ({
                     name: field.field_name,
@@ -64,19 +52,15 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
                     isRequired: field.isRequired,
                 }));
                 const initialCustomFieldsData = JSON.parse(JSON.stringify(customFieldsData));
-
                 setCustomFields(customFieldsData);
                 setInitialCustomFields(initialCustomFieldsData);
             }
         }
     }, [collection])
-
-
     
     const addCustomField = () => {
         setCustomFields([...customFields, { name: '', type: 'string', isRequired: false }]);
     };
-
 
     const handleCustomFieldNameChange = (index, newName) => {
         const updatedCustomFields = [...customFields];
@@ -101,9 +85,6 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
         updatedCustomFields.splice(index, 1);
         setCustomFields(updatedCustomFields);
     };
-
-
-
     
     const closeModal = () => {
         setIsModalVisible(false);
@@ -133,8 +114,6 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
         },
     });
 
-
-
     const handleCreate =  () => {
         form.validateFields()
           .then(async (values) => {
@@ -157,7 +136,6 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
     const handleEdit = () => {
         const hasRequiredChanged = customFields.some((currentField) => {
             const initialField = initialCustomFields.find((field) => field.name === currentField.name);
-    
             const hasChanged =
                 initialField &&
                 ((initialField.isRequired && initialField.type !== currentField.type) || 
@@ -211,7 +189,6 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
         });
     };
 
-
     return (
         <Modal
             visible={isModalVisible}
@@ -253,7 +230,6 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
                         )}
                     </div>
                     }
-
 
                     <CollectionCustomFields
                         customFields={customFields}

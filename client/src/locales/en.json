@@ -80,7 +80,7 @@
         "edit_item": "Edit item",
         "add_comment": "Add Comment",
         "item_details": "Item Details",
-        "author": "Author"
-
+        "author": "Author",
+        "not_found": "Item not found"
     }
 }
