@@ -117,7 +117,7 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
             if (acceptedFiles && acceptedFiles.length > 0) {
                 setImageFile(acceptedFiles[0]);
                 const data = new FormData();
-                data.append("file", imageFile);
+                data.append("file", acceptedFiles[0]);
                 data.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
                 data.append("cloud_name", CLOUDINARY_CLOUD_NAME);
 
