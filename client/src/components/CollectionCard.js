@@ -6,7 +6,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const CollectionCard = ({ id, title, theme, image, handleEditCollection, handleDeleteCollection }) => {
     const { t } = useTranslation();
-    const defaultImageUrl = process.env.DEFAULT_IMAGE_URL;
+    const defaultImageUrl = process.env.REACT_APP_DEFAULT_IMAGE_URL;
 
     return (
         <Card

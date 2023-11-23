@@ -4,7 +4,7 @@ import { Image, Space } from 'antd';
 
 function CollectionInfo({ collection }) {
     const { t } = useTranslation();
-    const defaultImageUrl = process.env.DEFAULT_IMAGE_URL;
+    const defaultImageUrl = process.env.REACT_APP_DEFAULT_IMAGE_URL;
 
     return (
         <Space style={{ padding: '20px' }}>
