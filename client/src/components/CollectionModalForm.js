@@ -93,6 +93,9 @@ function CollectionModalForm({ title, okText, collection, onCloseModal }) {
         onDrop: async (acceptedFiles) => {
             setIsUploading(true);
             if (acceptedFiles && acceptedFiles.length > 0) {
+                console.log('process.env.CLOUDINARY_CLOUD_NAME=', process.env.CLOUDINARY_CLOUD_NAME);
+                console.log('process.env.CLOUDINARY_UPLOAD_PRESET=', process.env.CLOUDINARY_UPLOAD_PRESET);
+
                 setImageFile(acceptedFiles[0]);
                 const data = new FormData();
                 data.append("file", acceptedFiles[0]);
