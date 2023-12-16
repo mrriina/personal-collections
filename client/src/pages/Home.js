@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Spin, Table } from 'antd';
 import { getLatestItems } from '../http/itemAPI'
+import { HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, PROFILE_ROUTE, COLLECTION_ROUTE, ITEM_ROUTE } from './utils/routes'
 
 function Home() {
   const { t } = useTranslation();

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Form, Input, Button, Row, Col, Card, message } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { registration } from '../http/userAPI';
+import { LOGIN_ROUTE, PROFILE_ROUTE } from './utils/routes'
 
 const Registration = () => {
     const { t } = useTranslation();
@@ -15,7 +16,7 @@ const Registration = () => {
             await registration(values.name, values.email, values.password);
             message.success(t('auth.successfully_registered'))
             setErrorMessage(null)
-            navigate("/profile");
+            navigate(PROFILE_ROUTE);
         } catch (e) {
             setErrorMessage(e.response.data.message)
         }
@@ -78,7 +79,7 @@ const Registration = () => {
                                 </Button>
                             </Form.Item>
                             <Form.Item>
-                                {t('auth.already_have_an_account')}? <Link to="/login">{t('auth.log_in')}</Link>
+                                {t('auth.already_have_an_account')}? <Link to={LOGIN_ROUTE}>{t('auth.log_in')}</Link>
                             </Form.Item>
                         </Form>
                     </Card>

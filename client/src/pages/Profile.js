@@ -6,6 +6,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import CollectionModalForm from '../components/CollectionModalForm';
 import { getCollectionsByProfileId, deleteCollection } from '../http/collectionAPI'
 import CollectionCard from '../components/CollectionCard';
+import { LOGIN_ROUTE } from './utils/routes'
 
 function Profile() {
   const [collections, setCollections] = useState([]);
@@ -76,7 +77,7 @@ function Profile() {
                                 onCloseModal={() => {setEditCollectionModal(false); getCollections()}} />
           )}
       </div>
-    : navigate("/login") 
+    : navigate(LOGIN_ROUTE) 
   );
 }
 

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, Card, Form, Input, Row, Col, message } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { login } from '../http/userAPI';
+import { REGISTRATION_ROUTE, PROFILE_ROUTE } from './utils/routes'
 
 export default function Login() {
     const { t } = useTranslation();
@@ -12,7 +13,7 @@ export default function Login() {
     const loginHandler = async (values) => {
         try {
             await login(values.email, values.password);
-            navigate("/profile");
+            navigate(PROFILE_ROUTE);
         } catch (e) {
             message.error(t('auth.user_not_found'))
         }
@@ -46,7 +47,7 @@ export default function Login() {
                                 </Button>
                             </Form.Item>
                             <Form.Item>
-                                {t('auth.dont_have_an_account')}? <Link to="/registration">{t('auth.register')}</Link>
+                                {t('auth.dont_have_an_account')}? <Link to={REGISTRATION_ROUTE}>{t('auth.register')}</Link>
                             </Form.Item>
                         </Form>
                     </Card>

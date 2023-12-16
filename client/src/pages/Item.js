@@ -5,6 +5,7 @@ import { Button, Spin, Row, Col, Input, List, Form, Card, Avatar } from 'antd';
 import ItemInfo from '../components/ItemInfo';
 import { getCommentsByItemId, createComment } from '../http/commentAPI';
 import { getItemById } from '../http/itemAPI';
+import { LOGIN_ROUTE } from './utils/routes'
 
 function Item() {    
     const { id } = useParams();
@@ -37,7 +38,7 @@ function Item() {
 
     const handleSubmitComment = async () => {
         if(!sessionStorage.getItem('userId')) {
-            navigate("/login");
+            navigate(LOGIN_ROUTE);
             return;
         }
         await createComment(newComment, id, sessionStorage.getItem('userId'));
