@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, Card, Form, Input, Row, Col, message } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { login } from '../http/userAPI';
-import { REGISTRATION_ROUTE, PROFILE_ROUTE } from './utils/routes'
+import { REGISTRATION_ROUTE, PROFILE_ROUTE } from '../utils/consts'
 
 export default function Login() {
     const { t } = useTranslation();

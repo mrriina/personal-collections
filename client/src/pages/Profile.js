@@ -6,7 +6,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import CollectionModalForm from '../components/CollectionModalForm';
 import { getCollectionsByProfileId, deleteCollection } from '../http/collectionAPI'
 import CollectionCard from '../components/CollectionCard';
-import { LOGIN_ROUTE } from './utils/routes'
+import { LOGIN_ROUTE } from '../utils/consts'
 
 function Profile() {
   const [collections, setCollections] = useState([]);
