@@ -9,26 +9,26 @@ import { HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, PROFILE_ROUTE, COLLECTION_
 export const routes = [
     {
         path: HOME_ROUTE,
-        Component: Home
+        element: <Home />
     },
     {
         path: LOGIN_ROUTE,
-        Component: Login
+        element: <Login />
     },
     {
         path: REGISTRATION_ROUTE,
-        Component: Registration
+        element: <Registration />
     },
     {
         path: PROFILE_ROUTE,
-        Component: Profile
+        element: <Profile />
     },
     {
         path: COLLECTION_ROUTE + '/:id',
-        Component: Collection
+        element: <Collection />
     },
     {
         path: ITEM_ROUTE + '/:id',
-        Component: Item
+        element: <Item />
     },
 ]

@@ -13,7 +13,7 @@ function Home() {
   const columns = [
     { title: t('item.title'), dataIndex: 'title', key: 'title',
       render: (title, record) => (
-        <Link to={ITEM_ROUTE + record.id}>
+        <Link to={ITEM_ROUTE + `/${record.id}`}>
           {title}
         </Link>
       )

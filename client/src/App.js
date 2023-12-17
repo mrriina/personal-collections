@@ -8,8 +8,8 @@ function App() {
     <div className="h-screen bg-gray-100 dark:bg-gray-900 overflow-y-auto scrollHide">
       <Navbar />
       <Routes>
-        {routes.map(({path, Component}) =>
-          <Route key={path} path={path} element={Component} exact/>
+        {routes.map(({path, element}) =>
+          <Route key={path} path={path} element={element} exact/>
         )}
         {/* <Route path={HOME_ROUTE} element={<Home />} exact />
         <Route path={LOGIN_ROUTE} element={<Login />} exact />
