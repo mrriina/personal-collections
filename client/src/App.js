@@ -11,12 +11,6 @@ function App() {
         {routes.map(({path, element}) =>
           <Route key={path} path={path} element={element} exact/>
         )}
-        {/* <Route path={HOME_ROUTE} element={<Home />} exact />
-        <Route path={LOGIN_ROUTE} element={<Login />} exact />
-        <Route path={REGISTRATION_ROUTE} element={<Registration />} exact />
-        <Route path={PROFILE_ROUTE} element={<Profile />} exact />
-        <Route path={COLLECTION_ROUTE} element={<Collection />} exact />
-        <Route path={ITEM_ROUTE} element={<Item />} exact />  */}
       </Routes>
     </div>
   );
