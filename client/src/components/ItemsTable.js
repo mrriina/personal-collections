@@ -5,6 +5,7 @@ import { Table, Tag, Space, Button } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getItems, deleteItem } from '../http/itemAPI'
 import ItemModalForm from './ItemModalForm';
+import { ITEM_ROUTE } from '../utils/consts'
 
 const ItemsTable = (collection) => {
     const { t } = useTranslation();
@@ -66,7 +67,7 @@ const ItemsTable = (collection) => {
             sorter: (a, b) => fieldSorter(a.id, b.id, 'integer') },
         { title: t('item.title'), dataIndex: 'title', key: 'title',
             render: (title, record) => (
-                <Link to={`/item/${record.id}`}>
+                <Link to={ITEM_ROUTE +`/${record.id}`}>
                     {title}
                 </Link>
             ), 

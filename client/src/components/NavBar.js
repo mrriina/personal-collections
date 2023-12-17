@@ -5,6 +5,7 @@ import i18n from '../i18n';
 import { Layout, Button, Switch, Dropdown, Menu } from 'antd';
 import { UserOutlined, LoginOutlined, UserAddOutlined} from '@ant-design/icons';
 import { getUser } from '../http/userAPI'
+import { HOME_ROUTE, PROFILE_ROUTE, REGISTRATION_ROUTE, LOGIN_ROUTE } from '../utils/consts'
 
 const { Header } = Layout;
 
@@ -34,12 +35,12 @@ const Navbar = () => {
         setUser(null);
         sessionStorage.removeItem("tokenUser")
         sessionStorage.removeItem("userId")
-        navigate("/")
+        navigate(HOME_ROUTE)
     }
 
     const menu = (
         <Menu>
-            <Menu.Item key="profile" onClick={() => {navigate("/profile")}}>
+            <Menu.Item key="profile" onClick={() => {navigate(PROFILE_ROUTE)}}>
                 {t('navbar.profile')}
             </Menu.Item>
             <Menu.Item key="logout" onClick={logOut}>
@@ -51,7 +52,7 @@ const Navbar = () => {
     return (
         <Header style={{ background: '#fff' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Link to="/" style={{ color: '#001529', fontSize: '24px', textDecoration: 'none' }}>
+                <Link to={HOME_ROUTE} style={{ color: '#001529', fontSize: '24px', textDecoration: 'none' }}>
                     Collections
                 </Link>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -63,10 +64,10 @@ const Navbar = () => {
                         </Dropdown>
                     ) : (
                         <>
-                        <Button icon={<UserAddOutlined />} onClick={() => navigate('/registration')}>
+                        <Button icon={<UserAddOutlined />} onClick={() => navigate(REGISTRATION_ROUTE)}>
                             {t('navbar.signup')}
                         </Button>
-                        <Button icon={<LoginOutlined />} onClick={() => navigate('/login')} style={{ marginLeft: '20px' }}>
+                        <Button icon={<LoginOutlined />} onClick={() => navigate(LOGIN_ROUTE)} style={{ marginLeft: '20px' }}>
                             {t('navbar.login')}
                         </Button>
                         </>

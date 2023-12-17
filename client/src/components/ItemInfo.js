@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Descriptions, Checkbox } from 'antd';
+import { COLLECTION_ROUTE } from '../utils/consts'
 
 function ItemInfo({ item }) {
     const { t } = useTranslation();
@@ -27,7 +28,7 @@ function ItemInfo({ item }) {
               <Descriptions.Item label={t('item.tags')}>{item.tags}</Descriptions.Item>
                 {renderCustomFields()}
               <Descriptions.Item label={t('item.collection')}>
-                <a href={`/collection/${item.collection.id}`}>{item.collection.title}</a>
+                <a href={COLLECTION_ROUTE + `/${item.collection.id}`}>{item.collection.title}</a>
               </Descriptions.Item>
           </Descriptions>
         </div>

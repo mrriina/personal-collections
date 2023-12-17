@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Card, Button } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { COLLECTION_ROUTE } from '../utils/consts'
 
 const CollectionCard = ({ id, title, theme, image, handleEditCollection, handleDeleteCollection }) => {
     const { t } = useTranslation();
@@ -21,7 +22,7 @@ const CollectionCard = ({ id, title, theme, image, handleEditCollection, handleD
                 </Button>,
             ]}
         >
-        <Link to={`/collection/${id}`}>
+        <Link to={COLLECTION_ROUTE + `/${id}`}>
             <Card.Meta title={title} description={theme} />
         </Link>
         </Card>
