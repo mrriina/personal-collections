@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useDropzone } from 'react-dropzone';
 import { Button, Modal, Form, Input, Select, Spin, Row } from 'antd';
 import { uploadCollectionFile, createCollection, updateCollectionById } from '../http/collectionAPI';
-import { deleteItemsByCollectionId } from '../http/itemAPI'
-import CollectionCustomFields from './CollectionCustomFields';
+import { deleteItemsByCollectionId } from '../http/itemAPI';
+import { CollectionCustomFields } from './index';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
 import './Modal.css'

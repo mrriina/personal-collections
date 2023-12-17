@@ -3,9 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 import { Button, Spin } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import CollectionModalForm from '../components/CollectionModalForm';
+import { CollectionModalForm, CollectionCard } from '../components/index'
 import { getCollectionsByProfileId, deleteCollection } from '../http/collectionAPI'
-import CollectionCard from '../components/CollectionCard';
 import { LOGIN_ROUTE } from '../utils/consts'
 
 function Profile() {

@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Table, Tag, Space, Button } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { getItems, deleteItem } from '../http/itemAPI'
-import ItemModalForm from './ItemModalForm';
-import { ITEM_ROUTE } from '../utils/consts'
+import { getItems, deleteItem } from '../http/itemAPI';
+import { ItemModalForm } from './index';
+import { ITEM_ROUTE } from '../utils/consts';
 
 const ItemsTable = (collection) => {
     const { t } = useTranslation();

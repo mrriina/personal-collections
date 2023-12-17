@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button, Spin, Row, Col, Input, List, Form, Card, Avatar } from 'antd';
-import ItemInfo from '../components/ItemInfo';
+import { ItemInfo } from '../components/index'
 import { getCommentsByItemId, createComment } from '../http/commentAPI';
 import { getItemById } from '../http/itemAPI';
 import { LOGIN_ROUTE } from '../utils/consts'

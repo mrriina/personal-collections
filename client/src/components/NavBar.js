@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
 import { Layout, Button, Switch, Dropdown, Menu } from 'antd';
 import { UserOutlined, LoginOutlined, UserAddOutlined} from '@ant-design/icons';
-import { getUser } from '../http/userAPI'
-import { HOME_ROUTE, PROFILE_ROUTE, REGISTRATION_ROUTE, LOGIN_ROUTE } from '../utils/consts'
+import { getUser } from '../http/userAPI';
+import { HOME_ROUTE, PROFILE_ROUTE, REGISTRATION_ROUTE, LOGIN_ROUTE } from '../utils/consts';
 
 const { Header } = Layout;
 

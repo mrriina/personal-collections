@@ -3,8 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Spin } from 'antd';
 import { getCollectionById } from '../http/collectionAPI';
-import CollectionInfo from '../components/CollectionInfo';
-import ItemsTable from '../components/ItemsTable';
+import { CollectionInfo, ItemsTable } from '../components/index'
 
 function Collection() {    
     const { id } = useParams();
